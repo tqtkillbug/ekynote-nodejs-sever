@@ -25,7 +25,7 @@ const userController = {
     getUser: async(req,res) =>{
     try {
       console.log("--------------------------GET USER---------------------------");
-      const user = await User.find({id: req.params.id}).populate("keywords");
+      const user = await User.find({id: req.params.id});
       console.log(user);
          res.status(200).json(user);
      } catch (error) {
