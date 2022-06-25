@@ -29,6 +29,5 @@ mongoose.connect((process.env.mongodb_url), () => {
     console.log("Connected mongobd");
 })
 
-app.listen(3000,() => {
-    console.log("server is runing..")
-})
+
+app.listen(process.env.PORT || 3000)
