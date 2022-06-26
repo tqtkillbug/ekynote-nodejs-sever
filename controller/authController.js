@@ -39,25 +39,26 @@ const authController = {
             const validPassword = await bcrypt.compare(
                 req.body.password,
                  user.password
-                 );
+            );
             if(!validPassword){
                 res.status(400).json("Login Faild!");
             }
             if(user && validPassword){
-                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "30s");
-                const refreshToken =  authController.generateToken(user, process.env.secret_key_jwt_2, "6m");
-                res.cookie("accessToken", accessToken, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "strict"
-                });
-                res.cookie("refreshToken", refreshToken, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "strict"
-                });
-                 const {password, ...others} = user._doc;
-                res.status(200).json({...others, accessToken, refreshToken});
+                // const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "30s");
+                // const refreshToken =  authController.generateToken(user, process.env.secret_key_jwt_2, "6m");
+                // res.cookie("accessToken", accessToken, {
+                //     httpOnly: true,
+                //     secure: true,
+                //     sameSite: "strict"
+                // });
+                // res.cookie("refreshToken", refreshToken, {
+                //     httpOnly: true,
+                //     secure: true,
+                //     sameSite: "strict"
+                // });
+                //  const {password, ...others} = user._doc;
+                // res.status(200).json({...others, accessToken, refreshToken});
+                res.status(200).json({user,validPassword});
             }
         } catch (error) {
             res.status(500).json("Error");
@@ -102,5 +103,6 @@ const authController = {
          );
     }
 }
+
 
 module.exports = authController;
