@@ -46,21 +46,21 @@ const authController = {
             if(user && validPassword){
                 const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "30s");
                 const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-                // res.cookie("accessToken", accessToken, {
-                //     httpOnly: true,
-                //     secure: true,
-                //     sameSite: "strict"
-                // });
-                // res.cookie("refreshToken", refreshToken, {
-                //     httpOnly: true,
-                //     secure: true,
-                //     sameSite: "strict"
-                // });
-                //  const {password, ...others} = user._doc;
-                // res.status(200).json({...others, accessToken, refreshToken});
-                console.log(accessToken);
-                console.log(refreshToken);
-                res.status(200).json({user,validPassword,accessToken,refreshToken});
+                res.cookie("accessToken", accessToken, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "strict"
+                });
+                res.cookie("refreshToken", refreshToken, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "strict"
+                });
+                 const {password, ...others} = user._doc;
+                res.status(200).json({...others, accessToken, refreshToken});
+                // console.log(accessToken);
+                // console.log(refreshToken);
+                // res.status(200).json({user,validPassword,accessToken,refreshToken});
             }
         } catch (error) {
             res.status(500).json("Error");
