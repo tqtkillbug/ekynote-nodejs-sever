@@ -32,6 +32,7 @@ const authController = {
     login: async (req,res) => {
         try {
             const user = await User.findOne({email: req.body.email});
+            console.log(user);
             if(!user){
               return  res.status(404).json("Login Faild!");
             }
@@ -59,7 +60,7 @@ const authController = {
                 res.status(200).json({...others, accessToken, refreshToken});
             }
         } catch (error) {
-            res.status(500).json(error);
+            res.status(500).json("Error");
         }
     },
 
