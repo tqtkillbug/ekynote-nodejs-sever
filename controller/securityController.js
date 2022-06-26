@@ -1,4 +1,3 @@
-const { next } = require("cheerio/lib/api/traversing");
 const jwt = require("jsonwebtoken");
 const { use } = require("../routes/user");
 const { generateToken } = require("../securitys/jwtAuthencation");
