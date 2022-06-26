@@ -47,12 +47,12 @@ const authController = {
                 const refreshToken =  authController.generateToken(user, process.env.secret_key_jwt_2, "6m");
                 res.cookie("accessToken", accessToken, {
                     httpOnly: true,
-                    secure: false,
+                    secure: true,
                     sameSite: "strict"
                 });
                 res.cookie("refreshToken", refreshToken, {
                     httpOnly: true,
-                    secure: false,
+                    secure: true,
                     sameSite: "strict"
                 });
                  const {password, ...others} = user._doc;
