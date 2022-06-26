@@ -44,8 +44,8 @@ const authController = {
                 res.status(400).json("Login Faild!");
             }
             if(user && validPassword){
-                // const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "30s");
-                // const refreshToken =  authController.generateToken(user, process.env.secret_key_jwt_2, "6m");
+                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "30s");
+                const refreshToken =  authController.generateToken(user, process.env.secret_key_jwt_2, "6m");
                 // res.cookie("accessToken", accessToken, {
                 //     httpOnly: true,
                 //     secure: true,
@@ -58,7 +58,7 @@ const authController = {
                 // });
                 //  const {password, ...others} = user._doc;
                 // res.status(200).json({...others, accessToken, refreshToken});
-                res.status(200).json({user,validPassword});
+                res.status(200).json({user,validPassword,accessToken,refreshToken});
             }
         } catch (error) {
             res.status(500).json("Error");
