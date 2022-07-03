@@ -44,7 +44,7 @@ const authController = {
                 res.status(400).json("Login Faild!");
             }
             if(user && validPassword){
-                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "2h");
+                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "1h");
                 const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
                 res.cookie("accessToken", accessToken, {
                     httpOnly: true,
