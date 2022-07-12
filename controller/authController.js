@@ -64,6 +64,14 @@ const authController = {
         }
     },
 
+    showLogin: (req,res) =>{
+        res.render("login");
+    },
+
+    showRegister: (req,res) =>{
+        res.render("register");
+    },
+
     refreshToken: async (req,res) =>{
         const refreshToken = req.cookies.refreshToken;
         if(!refreshToken) return res.status(401).json("Not authenticated");
