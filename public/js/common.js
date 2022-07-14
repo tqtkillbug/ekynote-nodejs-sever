@@ -65,8 +65,11 @@ class User {
           message: message,
         });
         break;
-        case 2:
-          // code block
+        case 3:
+          iziToast.error({
+          icon:"fa fa-exclamation-triangle",
+          message:message,
+        });
         break;
           case 2:
         // code block
