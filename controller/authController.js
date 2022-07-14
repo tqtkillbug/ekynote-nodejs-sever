@@ -16,13 +16,13 @@ const authController = {
               return res.status(300).json("Email has exsit!")
            } 
             const newUser = await new User({
-                code: req.body.code,
                 name: req.body.name,
                 email: req.body.email,
                 password: hashed,
                 isDelete: 0,
             });
             const user = await newUser.save();
+            user.password = null;
             res.status(200).json(user);
         } catch (error) {
             res.status(500).json(error);
