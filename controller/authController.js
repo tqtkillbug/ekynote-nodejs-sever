@@ -4,6 +4,8 @@ const { get } = require("mongoose");
 const {User, Keyword} = require("../model/model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const passport = require('passport');
+
 
 
 const authController = {
@@ -100,7 +102,8 @@ const authController = {
         secretKey,
         {expiresIn :  expiresIn}
          );
-    }
+    },
+   
 }
 
 
