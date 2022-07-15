@@ -1,6 +1,8 @@
-const API_LOGIN = "/api/auth/login"
-const API_REGISTER = "/api/auth/register"
-const API_REFRESH_TOKEN = "/api/auth/refreshToken"
+const PRE_FIX_API = "https://ekynote-staging.herokuapp.com";
+
+const API_LOGIN = PRE_FIX_API+ "/api/auth/login"
+const API_REGISTER = PRE_FIX_API + "/api/auth/register"
+const API_REFRESH_TOKEN = PRE_FIX_API + "/api/auth/refreshToken"
 
 
 class User {
