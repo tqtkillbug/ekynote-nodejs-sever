@@ -11,8 +11,11 @@ const keywordRoute = require("./routes/keyword");
 const authRoute = require("./routes/auth");
 const viewRoute = require("./routes/view");
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const keys = require("key");
+
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+
+require('./securitys/passport')(passport)
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -23,10 +26,29 @@ app.set("views","views");
 app.set("view engine","ejs");
 app.use(express.static("public"));
 dotenv.config();
-
-passport.use(new GoogleStrategy());
-
 // Config DB
+
+
+mongoose.connect(process.env.mongodb_url,{
+    useNewUrlParser:true,
+    useUnifiedTopology: true
+}, () => {
+  console.log("Connected Mongo DB------------------------------>");
+})
+
+app.use(
+    session({
+      secret: 'Eky Note',
+      resave: false,
+      saveUninitialized: false,
+      store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    })
+  )
+
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 app.use("/api/user", userRoute);
 
@@ -36,27 +58,8 @@ app.use("/api/auth",authRoute);
 
 app.use("/",viewRoute);
 
+app.use('/auth', require('./routes/auths'))
 
-mongoose.connect((process.env.mongodb_url), () => {
-    console.log("Connected mongobd");
-})
 
 
 app.listen(process.env.PORT || 8000);
-
-
-passport.use(new GoogleStrategy({
-    clientID: process.env.googleClientID,
-    clientSecret: process.env.googleClientSecret,
-    callbackURL: 'api/auth/google/callback'
-  },
-
-  function(accessToken, refreshToken, profile, done) {
-      userProfile=profile;
-      return done(null, userProfile);
-  }
-
-));
-
-app.get('/auth/google', 
-  passport.authenticate('google', { scope : ['profile', 'email'] }));
