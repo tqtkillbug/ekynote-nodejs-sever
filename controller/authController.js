@@ -1,7 +1,7 @@
 const { json } = require("body-parser");
 const bodyParser = require("body-parser");
 const { get } = require("mongoose");
-const {User, Keyword} = require("../model/model");
+const {User, Keyword, LogIP} = require("../model/model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -100,6 +100,20 @@ const authController = {
         secretKey,
         {expiresIn :  expiresIn}
          );
+    },
+
+    checkConnect: async(req,res) =>{
+        try {
+            var ip = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||  req.socket.remoteAddress
+            const newLogRq = await new LogIP({
+                ip: ip,
+                userId: null,
+            });
+            const logRq = await newLogRq.save();
+            return  res.status(200).json("Connected Server, Ready Give Request");
+        } catch (error) {
+            return res.status(500).json(error);
+        }
     }
 }
 

@@ -10,5 +10,7 @@ router.post("/refreshToken", authController.refreshToken);
 
 router.get("/logout",authController.logout);
 
+router.get("/ping",authController.checkConnect)
+
 
 module.exports = router;
