@@ -36,6 +36,9 @@ mongoose.connect(process.env.mongodb_url,{
   console.log("Connected Mongo DB------------------------------>");
 })
 
+dotenv.config();
+// Config DB
+
 app.use(
     session({
       secret: 'Eky Note',
