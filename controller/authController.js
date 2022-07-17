@@ -129,6 +129,8 @@ const authController = {
                             secure: false,
                             sameSite: "strict"
                         });
+                        res.header('Access-Control-Allow-Origin', 'https://ekynote-staging.herokuapp.com')
+                        res.header('Access-Control-Allow-Credentials','true')
                         return res.status(200).json({user,accessToken,refreshToken});
                     }
                 });
