@@ -15,7 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors());
 app.use(morgan("common"));
 app.use(cookiePaser());
+const corsOptions = {
+    origin: true, //included origin as true
+    credentials: true, //included credentials as true
+};
 
+app.use(cors(corsOptions));
 dotenv.config();
 // Config DB
 
