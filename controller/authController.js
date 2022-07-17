@@ -120,12 +120,12 @@ const authController = {
                         const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
                         const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
                         res.cookie("accessToken", accessToken, {
-                            httpOnly: true,
+                            httpOnly: false,
                             secure: false,
                             sameSite: "strict"
                         });
                         res.cookie("refreshToken", refreshToken, {
-                            httpOnly: true,
+                            httpOnly: false,
                             secure: false,
                             sameSite: "strict"
                         });
