@@ -1,4 +1,3 @@
-
 (function ($) {
     /*==================================================================
     [ Validate ]*/
@@ -58,8 +57,8 @@
         showLoading();
         axios.post("https://ekynote-staging.herokuapp.com/api/auth/login", {email: user.email, password: user.password})
           .then(function (response) {
+            appendToken(response.data.accessToken);
             showToast(2,"Successfully login!");
-            console.log(response);
             window.setTimeout( function(){
                 window.location = "/";
             }, 2500 );
@@ -72,5 +71,12 @@
             hideLoading();
           });
     }
+
+    function appendToken(token){
+       $("body").append(`<input type="hidden" id="eky_token_login" value="${token}">`)
+    }
+
+   
     
 })(jQuery);
+
