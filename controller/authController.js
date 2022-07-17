@@ -118,8 +118,18 @@ const authController = {
                     }
                     if(user){
                         const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
-                        const newRefreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-                        return res.status(200).json({user,accessToken,newRefreshToken});
+                        const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
+                        res.cookie("accessToken", accessToken, {
+                            httpOnly: true,
+                            secure: false,
+                            sameSite: "strict"
+                        });
+                        res.cookie("refreshToken", refreshToken, {
+                            httpOnly: true,
+                            secure: false,
+                            sameSite: "strict"
+                        });
+                        return res.status(200).json({user,accessToken,refreshToken});
                     }
                 });
         } catch (error) {
