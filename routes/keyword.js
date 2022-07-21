@@ -1,10 +1,16 @@
 const keywordController = require("../controller/keywordCotroller");
+const securityController = require("../controller/securityController");
+
 const router = require("express").Router();
+const verifyAdmin = securityController.verifyAdmin;
 
+const verifyUserCur = securityController.verifyCurrentUser;
 
-router.post("/", keywordController.addKeyword);
+const verifyToken = securityController.verifyToken;
 
-router.get("/keywords", keywordController.getAllKeyword);
+router.post("/", verifyToken,keywordController.addKeyword);
+
+router.get("/keywords", verifyToken,keywordController.getAllKeyword);
 
 module.exports = router;
 

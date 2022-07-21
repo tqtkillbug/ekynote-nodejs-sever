@@ -46,14 +46,14 @@ const authController = {
             if(user && validPassword){
                 const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "1h");
                 const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-                res.cookie("accessToken", accessToken, {
+                res.cookie("accessToken","BeaBearer "+ accessToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: "strict"
                 });
-                res.cookie("refreshToken", refreshToken, {
+                res.cookie("refreshToken","BeaBearer "+ refreshToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: "strict"
                 });
                  const {password, ...others} = user._doc;
@@ -73,12 +73,12 @@ const authController = {
             }
             const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
             const newRefreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-            res.cookie("accessToken", accessToken, {
+            res.cookie("accessToken","BeaBearer "+ accessToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "strict"
             });
-            res.cookie("newRefreshToken", newRefreshToken, {
+            res.cookie("newRefreshToken","BeaBearer "+ newRefreshToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "strict"
@@ -119,18 +119,12 @@ const authController = {
                     if(user){
                         const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
                         const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-                        res.cookie("accessToken", accessToken, {
-                            httpOnly: false,
-                            secure: false,
-                            sameSite: "strict"
+                        res.cookie("accessToken","BeaBearer "+ accessToken, {
+                            httpOnly: false
                         });
-                        res.cookie("refreshToken", refreshToken, {
-                            httpOnly: false,
-                            secure: false,
-                            sameSite: "strict"
+                        res.cookie("refreshToken","BeaBearer "+ refreshToken, {
+                            httpOnly: false
                         });
-                        res.header('Access-Control-Allow-Origin', 'https://ekynote-staging.herokuapp.com')
-                        res.header('Access-Control-Allow-Credentials','true')
                         return res.status(200).json({user,accessToken,refreshToken});
                     }
                 });
