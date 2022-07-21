@@ -6,12 +6,12 @@ const { generateToken } = require("../securitys/jwtAuthencation");
 const securityController  = {
      
     verifyToken : (req,res,next) => {
-         const token = req.headers.token;
+         const token = req.cookies.accessToken;
          if(token){
             const accessToken = token.split(" ")[1];
             jwt.verify(accessToken, process.env.secret_key_jwt,(err,user) => { 
                 if(err){
-                    return  res.status(403).json("Fobiden user");
+                    return res.status(403).json("Fobiden userss");
                 }
                 req.user = user;
                 next();

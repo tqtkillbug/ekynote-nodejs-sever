@@ -35,7 +35,12 @@ mongoose.connect(process.env.mongodb_url,{
 }, () => {
   console.log("Connected Mongo DB------------------------------>");
 })
+const corsOptions = {
+    origin: true, //included origin as true
+    credentials: true, //included credentials as true
+};
 
+app.use(cors(corsOptions));
 dotenv.config();
 // Config DB
 

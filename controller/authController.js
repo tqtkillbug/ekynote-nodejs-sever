@@ -46,14 +46,14 @@ const authController = {
             if(user && validPassword){
                 const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "1h");
                 const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-                res.cookie("accessToken", accessToken, {
+                res.cookie("accessToken","BeaBearer "+ accessToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: "strict"
                 });
-                res.cookie("refreshToken", refreshToken, {
+                res.cookie("refreshToken","BeaBearer "+ refreshToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: "strict"
                 });
                  const {password, ...others} = user._doc;
@@ -81,12 +81,12 @@ const authController = {
             }
             const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
             const newRefreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-            res.cookie("accessToken", accessToken, {
+            res.cookie("accessToken","BeaBearer "+ accessToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "strict"
             });
-            res.cookie("newRefreshToken", newRefreshToken, {
+            res.cookie("newRefreshToken","BeaBearer "+ newRefreshToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "strict"
@@ -118,7 +118,24 @@ const authController = {
                 userId: null,
             });
             const logRq = await newLogRq.save();
-            return  res.status(200).json("Connected Server, Ready Give Request");
+            var token = req.body.token;
+            if(!token) return res.status(401).json("Not authenticated");
+                jwt.verify(token, process.env.secret_key_jwt,(err,user) => { 
+                    if(err){
+                        return  res.status(403).json("Fobiden user");
+                    }
+                    if(user){
+                        const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
+                        const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
+                        res.cookie("accessToken","BeaBearer "+ accessToken, {
+                            httpOnly: false
+                        });
+                        res.cookie("refreshToken","BeaBearer "+ refreshToken, {
+                            httpOnly: false
+                        });
+                        return res.status(200).json({user,accessToken,refreshToken});
+                    }
+                });
         } catch (error) {
             return res.status(500).json(error);
         }
