@@ -9,6 +9,8 @@ const cookiePaser = require('cookie-parser');
 const userRoute = require("./routes/user");
 const keywordRoute = require("./routes/keyword");
 const authRoute = require("./routes/auth");
+const uploadRoute = require("./routes/upload");
+const scheduledTask = require('./service/schedule-task');
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,19 +18,24 @@ app.use(cors());
 app.use(morgan("common"));
 app.use(cookiePaser());
 const corsOptions = {
-    origin: true, //included origin as true
-    credentials: true, //included credentials as true
+    origin: true, 
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
 dotenv.config();
-// Config DB
 
 app.use("/api/user", userRoute);
 
 app.use("/api/keyword", keywordRoute);
 
 app.use("/api/auth",authRoute);
+
+app.use("/api/upload",uploadRoute);
+
+scheduledTask.initScheduledJobs();
+
+
 
 mongoose.connect((process.env.mongodb_url), () => {
     console.log("Connected mongobd");
