@@ -16,6 +16,8 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 
 require('./securitys/passport')(passport)
+const uploadRoute = require("./routes/upload");
+const scheduledTask = require('./service/schedule-task');
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -36,13 +38,12 @@ mongoose.connect(process.env.mongodb_url,{
   console.log("Connected Mongo DB------------------------------>");
 })
 const corsOptions = {
-    origin: true, //included origin as true
-    credentials: true, //included credentials as true
+    origin: true, 
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
 dotenv.config();
-// Config DB
 
 app.use(
     session({
@@ -68,6 +69,15 @@ app.use("/",viewRoute);
 
 app.use('/auth', require('./routes/auths'))
 
+app.use("/api/upload",uploadRoute);
+
+scheduledTask.initScheduledJobs();
+
+
+
+mongoose.connect((process.env.mongodb_url), () => {
+    console.log("Connected mongobd");
+})
 
 
 app.listen(process.env.PORT || 8000);
