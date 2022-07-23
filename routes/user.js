@@ -2,16 +2,20 @@ const userController = require("../controller/userController");
 const securityController = require("../controller/securityController");
 const router = require("express").Router();
 
+
+const verifyAdmin = securityController.verifyAdmin;
+
+const verifyUserCur = securityController.verifyCurrentUser;
 // Add new User
 router.post("/", userController.addUser);
 
 router.get("/users",securityController.verifyToken, userController.getAllUser);
 
-router.get("/:id", userController.getUser);
+router.get("/:id",verifyUserCur, userController.getUser);
 
-router.put("/:id", userController.updateUser);
+router.put("/:id",verifyUserCur, userController.updateUser);
 
-router.delete("/:id",securityController.verifyAdmin, userController.deleteUser);
+router.delete("/:id",verifyAdmin, userController.deleteUser);
 
 
 module.exports = router;

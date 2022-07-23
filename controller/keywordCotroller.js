@@ -7,13 +7,14 @@ const { getAllUser } = require("./userController");
 const keywordController = {
     addKeyword: async(req, res) =>{
         try {
-            const keyword = new Keyword(req.body);
-            const saveKeyword = await keyword.save();
-            if(req.body.user){
-                const user = User.find({id: req.body.user});
-                await user.updateOne({$push: {keywords:saveKeyword.id}})
+            if(req.user){
+                const keyword = new Keyword(req.body);
+                keyword.user = req.user.id;
+                const saveKeyword = await keyword.save();
+             return  res.status(200).json(saveKeyword);  
+            } else{
+                return res.status(403).json("User Not Authencation");
             }
-            res.status(200).json(keyword);
         } catch (error) {
             res.status(500).json(error);
         }
@@ -21,10 +22,20 @@ const keywordController = {
 
     getAllKeyword: async(req,res) =>{
        try {
-         const keywords = await Keyword.find();
-         res.status(200).json(keywords);
+        if(req.user){
+         var keywords = null;
+         const user = await User.findById(req.user.id);
+         if(user.admin == true){
+            keywords = await Keyword.find();
+         } else {
+           keywords = await Keyword.find({user: req.user.id});
+        } 
+        return res.status(200).json(keywords);
+        } else{
+            return res.status(403).json("Authentication failed");
+        }
        } catch (error) {
-        res.status(200).json(error);
+        res.status(500).json(error);
        }
     }
 }

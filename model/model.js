@@ -76,7 +76,17 @@ const keyWordSchema = new mongoose.Schema({
     }
 }, {timestamps : true})
 
+const logIPSchema = new mongoose.Schema({
+   ip:{
+    type:String
+   },
+    userId:{
+    type:String
+    }
+}, {timestamps : true})
+
 let Keyword = mongoose.model("Keyword", keyWordSchema);
 let User = mongoose.model("User", userChema);
+let LogIP = mongoose.model("LogIP", logIPSchema);
 
-module.exports = {Keyword, User};
+module.exports = {Keyword, User,LogIP};
