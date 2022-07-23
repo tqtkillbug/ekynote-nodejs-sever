@@ -8,7 +8,6 @@ const keywordController = {
     addKeyword: async(req, res) =>{
         try {
             if(req.user){
-                console.log(req.body);
                 const keyword = new Keyword(req.body);
                 keyword.user = req.user.id;
                 const saveKeyword = await keyword.save();
