@@ -65,7 +65,6 @@
           })
           .catch(function (error) {
             showToast(1,"Account not found, please try again or register");
-            console.log(error);
           })
           .then(() => {
             hideLoading();
