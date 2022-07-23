@@ -55,7 +55,7 @@
 
     function doLoginUser(user){
         showLoading();
-        axios.post("http://localhost:8000/api/auth/login", {email: user.email, password: user.password})
+        axios.post(API_LOGIN, {email: user.email, password: user.password})
           .then(function (response) {
             appendToken(response.data.accessToken);
             showToast(2,"Successfully login!");
@@ -73,9 +73,6 @@
 
     function appendToken(token){
        $("body").append(`<input type="hidden" id="eky_token_login" value="${token}">`)
-    }
-
-   
-    
+    } 
 })(jQuery);
 
