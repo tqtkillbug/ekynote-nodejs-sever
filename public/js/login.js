@@ -55,7 +55,7 @@
 
     function doLoginUser(user){
         showLoading();
-        axios.post("https://ekynote-staging.herokuapp.com/api/auth/login", {email: user.email, password: user.password})
+        axios.post("http://localhost:8000/api/auth/login", {email: user.email, password: user.password})
           .then(function (response) {
             appendToken(response.data.accessToken);
             showToast(2,"Successfully login!");

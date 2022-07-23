@@ -21,7 +21,6 @@ module.exports = function (passport) {
           email: profile.emails[0].value,
           password: "loginwithgoogletest1234"
         })
-         console.log(newUser);
         try {
           //find the user in our database 
           let user = await User.findOne({ email: profile.emails[0].value})

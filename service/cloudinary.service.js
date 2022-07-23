@@ -19,7 +19,7 @@ const cloudinaryService = {
               } 
                var keywordTypeImg = new Keyword(JSON.parse(req.body.imageObj));
                keywordTypeImg.content = req.file.path;
-               keywordTypeImg.User = req.user.id;
+               keywordTypeImg.user = req.user.id;
                const saveKeyword = await keywordTypeImg.save();
                if(saveKeyword){
                    return res.status(200).json(saveKeyword);

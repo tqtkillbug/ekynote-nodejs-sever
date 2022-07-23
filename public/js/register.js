@@ -69,7 +69,6 @@
           .then(function (response) {
             if(response.status == 200){
                 showToast(2,"Successfully Register, Please Login To Eky Note!");
-                console.log(response);
                 window.setTimeout( function(){
                     window.location = "/login";
                 }, 2500 );
@@ -81,7 +80,6 @@
             } else{
                 showToast(1,"Register has error, please try again!");
             }
-            console.log(error);
           })
           .then(() => {
             hideLoading();

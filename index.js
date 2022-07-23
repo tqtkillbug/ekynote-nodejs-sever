@@ -35,7 +35,7 @@ mongoose.connect(process.env.mongodb_url,{
     useNewUrlParser:true,
     useUnifiedTopology: true
 }, () => {
-  console.log("Connected Mongo DB------------------------------>");
+  console.log("<---------------------------------------Connected Mongo DB------------------------------>");
 })
 const corsOptions = {
     origin: true, 
@@ -74,10 +74,6 @@ app.use("/api/upload",uploadRoute);
 scheduledTask.initScheduledJobs();
 
 
-
-mongoose.connect((process.env.mongodb_url), () => {
-    console.log("Connected mongobd");
-})
 
 
 app.listen(process.env.PORT || 8000);
