@@ -5,10 +5,10 @@ const {User, Keyword} = require("../model/model");
 const cloudinaryService = require("../service/cloudinary.service");
 const securityController = require("../controller/securityController");
 
-const verifyUser = securityController.verifyCurrentUser;
+const verifyToken = securityController.verifyToken;
 const verifyAdmin = securityController.verifyAdmin;
 
-router.post('/image',verifyUser,fileUploader.single('file'),cloudinaryService.uploadImage);
+router.post('/image',verifyToken,fileUploader.single('file'),cloudinaryService.uploadImage);
 router.get("/admin/all-image",verifyAdmin,cloudinaryService.getAllImage);
 
 module.exports = router;
