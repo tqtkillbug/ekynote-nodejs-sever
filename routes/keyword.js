@@ -12,5 +12,12 @@ router.post("/", verifyToken,keywordController.addKeyword);
 
 router.get("/keywords", verifyToken,keywordController.getAllKeyword);
 
+router.get("/images", verifyToken,keywordController.getAllImage);
+
+router.put("/", verifyToken,keywordController.updateContent);
+
+router.get("/count", verifyToken,keywordController.getCount);
+
+
 module.exports = router;
 

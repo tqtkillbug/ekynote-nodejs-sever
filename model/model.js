@@ -24,6 +24,10 @@ const userChema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    refreshToken:{
+        type: String,
+        require: true
+    },
     keywords:[
         {
             type:mongoose.Schema.Types.ObjectId,
@@ -68,7 +72,8 @@ const keyWordSchema = new mongoose.Schema({
     },
     isDelete:{
         type: Number,
-        require : true
+        require : true,
+        default: 0
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
