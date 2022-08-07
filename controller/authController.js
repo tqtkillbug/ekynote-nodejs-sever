@@ -59,12 +59,12 @@ const authController = {
                 res.cookie("accessToken","BeaBearer "+ accessToken, {
                     httpOnly: true,
                     secure: false,
-                    // sameSite: "strict"
+                    sameSite: "none"
                 });
                 res.cookie("refreshToken","BeaBearer "+ refreshToken, {
                     httpOnly: true,
                     secure: false,
-                    // sameSite: "strict"
+                    sameSite: "none"
                 });
                  const {password, ...others} = user._doc;
                 res.status(200).json({...others, accessToken, refreshToken});
