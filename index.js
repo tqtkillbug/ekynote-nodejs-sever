@@ -18,10 +18,18 @@ const MongoStore = require('connect-mongo')(session)
 require('./securitys/passport')(passport)
 const uploadRoute = require("./routes/upload");
 const scheduledTask = require('./service/schedule-task');
-
+const server = require("http").createServer(app);
+server.listen(process.env.PORT || 8000);
+// const io = require('socket.io')(server, {
+//     cors: {
+//       origin: 'http://localhost:3000',
+//     }
+//   });
+//   io.on("connection",(socket)=>{
+//     // console.log("Socket connected");    
+//   })
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors());
 app.use(morgan("common"));
 app.use(cookiePaser());
 app.set("views","views");
@@ -37,12 +45,8 @@ mongoose.connect(process.env.mongodb_url,{
 }, () => {
   console.log("<---------------------------------------Connected Mongo DB------------------------------>");
 })
-const corsOptions = {
-    origin: true, 
-    credentials: true,
-};
 
-app.use(cors(corsOptions));
+
 dotenv.config();
 
 app.use(
@@ -76,4 +80,3 @@ scheduledTask.initScheduledJobs();
 
 
 
-app.listen(process.env.PORT || 3000);

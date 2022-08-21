@@ -3,7 +3,12 @@ const bodyParser = require("body-parser");
 const { get } = require("mongoose");
 const {User, Keyword, LogIP} = require("../model/model");
 const bcrypt = require("bcrypt");
+const promisify = require('util').promisify;
 const jwt = require("jsonwebtoken");
+const e = require("express");
+const verify = promisify(jwt.verify).bind(jwt);
+
+
 
 
 const authController = {
@@ -43,8 +48,14 @@ const authController = {
                 res.status(400).json("Login Faild!");
             }
             if(user && validPassword){
-                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "1h");
-                const refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
+                const accessToken =  authController.generateToken(user, process.env.secret_key_jwt, "900s");
+                let refreshToken = "";
+                if(user.refreshToken){
+                    refreshToken = user.refreshToken;
+                } else{
+                    refreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "30d");
+                    await User.findByIdAndUpdate( {_id: user._id},{$set:{"refreshToken": refreshToken}},  {new: true})
+                }
                 res.cookie("accessToken","BeaBearer "+ accessToken, {
                     httpOnly: true,
                     secure: false,
@@ -72,31 +83,35 @@ const authController = {
     },
 
     refreshToken: async (req,res) =>{
-        const refreshToken = req.cookies.refreshToken;
-        if(!refreshToken) return res.status(401).json("Not authenticated");
-        jwt.verify(refreshToken,process.env.SECRET_KEY_JWT_2, (err, user) => {
+        const refreshToken = req.cookies.refreshToken.split(" ")[1];
+        const accessToken = req.cookies.accessToken;
+        var currUser;
+        if(!accessToken) return res.status(401).json("Not found access token");
+        if(!refreshToken) return res.status(401).json("Not found refresh token");
+         
+        jwt.verify(refreshToken, process.env.SECRET_KEY_JWT_2, { ignoreExpiration: true},(err,user) => { 
             if(err){
-            res.status(500).json(error);
+                return res.status(403).json("Fobiden user");
             }
-            const accessToken = authController.generateToken(user, process.env.secret_key_jwt, "2h")
-            const newRefreshToken =  authController.generateToken(user, process.env.SECRET_KEY_JWT_2, "6m");
-            res.cookie("accessToken","BeaBearer "+ accessToken, {
-                httpOnly: true,
-                secure: false,
-                sameSite: "strict"
-            });
-            res.cookie("newRefreshToken","BeaBearer "+ newRefreshToken, {
-                httpOnly: true,
-                secure: false,
-                sameSite: "strict"
-            });
-            res.status(200).json({accessToken: newRefreshToken});
+           currUser = user;
         });
+        const userData = await User.findOne({email: currUser.email});  
+        if(!userData) return res.status(500).json("User not found");
+        if(userData.refreshToken !== refreshToken) return res.status(403).json("Resfresh not valid");
+
+        const newAccessToken = authController.generateToken(userData, process.env.secret_key_jwt, "900s")
+        res.cookie("accessToken","BeaBearer "+ newAccessToken, {
+           httpOnly: true,
+           secure: false,
+           sameSite: "strict"
+       });
+       return res.status(200).json({newAccessToken});
+       
     },
     logout: async (req,res) =>{
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
-
+        res.status(200).json("logouted")
     },
     generateToken:(user,secretKey,expiresIn) =>{
         return jwt.sign({
@@ -108,7 +123,7 @@ const authController = {
         {expiresIn :  expiresIn}
          );
     },
-
+   
     checkConnect: async(req,res) =>{
         try {
             var ip = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||  req.socket.remoteAddress

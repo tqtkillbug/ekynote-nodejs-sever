@@ -24,6 +24,10 @@ const userChema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    refreshToken:{
+        type: String,
+        require: true
+    },
     keywords:[
         {
             type:mongoose.Schema.Types.ObjectId,
@@ -68,7 +72,12 @@ const keyWordSchema = new mongoose.Schema({
     },
     isDelete:{
         type: Number,
-        require : true
+        require : true,
+        default: 0
+    },
+    isFavorite:{
+        type:Number,
+        default: 0
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
@@ -85,8 +94,13 @@ const logIPSchema = new mongoose.Schema({
     }
 }, {timestamps : true})
 
+
+
+
+
 let Keyword = mongoose.model("Keyword", keyWordSchema);
 let User = mongoose.model("User", userChema);
 let LogIP = mongoose.model("LogIP", logIPSchema);
+let Favorite = mongoose.model("Favorite", favorite);
 
-module.exports = {Keyword, User,LogIP};
+module.exports = {Keyword, User,LogIP,Favorite};

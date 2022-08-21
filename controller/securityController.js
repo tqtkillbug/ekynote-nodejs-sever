@@ -11,7 +11,7 @@ const securityController  = {
             const accessToken = token.split(" ")[1];
             jwt.verify(accessToken, process.env.secret_key_jwt,(err,user) => { 
                 if(err){
-                    return res.status(403).json("Fobiden userss");
+                    return res.status(403).json("Fobiden user");
                 }
                 req.user = user;
                 next();
