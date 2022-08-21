@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eky Note| Images</title>
+    <%- include('fragment/app-style'); -%>
+  <link href="css\list-image.css" rel="stylesheet" type="text/css">
+  <link href="assets\css\lightboxgallery-min.css" rel="stylesheet" type="text/css">
+  
+</head>
+<body>
+    <%- include('fragment/top-bar'); -%>
+    <%- include('fragment/left-slider'); -%>
+
+
+   
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content-->
+            <div class="container image-list-container mt-5">
+                <div class="container">
+                    <div class="lightboxgallery-gallery clearfix" id="list-grid-images">
+                     
+                      
+                  </div>
+                </div>
+            </div>
+            <!-- end container-fluid -->
+
+        </div>
+        <!-- end content -->
+        
+
+     
+
+    <%- include('fragment/footer'); -%>
+
+
+
+    <%- include('fragment/scriptcommon'); -%>
+   
+
+    <script src="\js\list-image.js"></script>
+    <script src="assets\js\lightboxgallery-min.js"></script>
+   
+</body>
+</html>

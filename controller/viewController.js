@@ -16,8 +16,14 @@ const viewController = {
         res.render("register");
     },
 
-    index: (req,res) => {
-        res.render("index");
+    dashboard: (req,res) => {
+        res.render("dashboard");
+    },
+    list_all :(req,res) =>{
+        res.render("list-all");
+    },
+    images_all :(req,res) =>{
+        res.render("list-images");
     }
 
   

@@ -55,16 +55,16 @@
 
     function doLoginUser(user){
         showLoading();
-        axios.post(API_LOGIN, {email: user.email, password: user.password})
+        axios.post(API_LOGIN, {email: user.email, password: user.password}, {withCredentials: true})
           .then(function (response) {
             appendToken(response.data.accessToken);
             showToast(2,"Successfully login!");
             window.setTimeout( function(){
                 window.location = "/";
-            }, 2500 );
+            }, 2000 );
           })
           .catch(function (error) {
-            showToast(1,"Account not found, please try again or register");
+            showToast(1,"Login faild, please try again or register");
           })
           .then(() => {
             hideLoading();

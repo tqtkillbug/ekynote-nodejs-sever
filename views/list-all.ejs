@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+  <!-- App css -->
+  
+  <link href="assets\css\virtual-select.min.css" rel="stylesheet" type="text/css">
+  <link href="css\list-all.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="assets\highlight\styles\androidstudio.min.css">
+  <%- include('fragment/app-style'); -%>
+
+</head>
+<body>
+    <%- include('fragment/top-bar'); -%>
+    <%- include('fragment/left-slider'); -%>
+
+    
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+                <div class="row mt-3">
+                 <div class="col-md-2">
+                     <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note"> 
+                         <option value = "1">Code</option> 
+                         <option value = "2">Keyword</option> 
+                         <option value = "3">Favorite</option> 
+                       </select>
+                 </div>
+                 <div class="col-md-2">
+                    <select id="select-multitest"  name="native-select" placeholder = "Sort Type" data-search = "true" data-silent-initial-value-set = "true"> 
+                        <option value = "1">Date(Last)</option> 
+                        <option value = "2">Date(Old)</option> 
+                        <option value = "3">Page</option> 
+                        <option value = "4">Name(DESC)</option> 
+                      </select>
+                </div>
+                <div class="col-md-2">
+                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
+                        <option value = "1"> Tùy chọn 1 </option> 
+                        <option value = "2"> Option 2 </option> 
+                        <option value = "3"> Option 3 </option> 
+                        <option value = "3"> Option 4 </option> 
+                        <option value = "3"> Option 5 </option> 
+                      </select>
+                </div>
+                <div class="col-md-2">
+                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
+                        <option value = "1"> Tùy chọn 1 </option> 
+                        <option value = "2"> Option 2 </option> 
+                        <option value = "3"> Option 3 </option> 
+                        <option value = "3"> Option 4 </option> 
+                        <option value = "3"> Option 5 </option> 
+                      </select>
+                </div>
+                <div class="col-md-2">
+                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
+                        <option value = "1"> Tùy chọn 1 </option> 
+                        <option value = "2"> Option 2 </option> 
+                        <option value = "3"> Option 3 </option> 
+                        <option value = "3"> Option 4 </option> 
+                        <option value = "3"> Option 5 </option> 
+                      </select>
+                </div>
+                </div>
+                <div class="row mt-2">
+                 <div class="col-12">
+                     <div class="card">
+                         <div class="card-body table-responsive">
+                            <div class="row">   
+                                <div class="col-7">
+                                    <h4 class="m-t-0 header-title mb-4"><b>List Note</b></h4>
+                                </div>
+                                <div class="col-4  bg-secondary ">
+                                    <div class="row border">
+                                     <div class="col-2">
+                                     <i class=" mdi mdi-tag icon-tag-keyword"></i>
+                                     </div>
+                                     <div class="col-4 align-self-center text-light">Keyword</div>
+                                     <div class="col-2">
+                                        <i class="mdi mdi-tag icon-tag-code"></i>
+                                        </div>
+                                        <div class="col-4 al align-self-center text-light">Code</div>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                             <table class="table dt-responsive nowrap table-hover mt-2" id="tb-scroll" >
+                                 <tbody id="table-list-note">
+                                    
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                    </div>
+                 </div>
+
+            </div>
+            <!-- end container-fluid -->
+
+        </div>
+        <!-- end content -->
+        
+
+     
+
+    <%- include('fragment/footer'); -%>
+
+    <!-- <%- include('fragment/footer'); -%> -->
+
+
+    <script src="assets\highlight\highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <%- include('fragment/scriptcommon'); -%>
+       <script src="assets\js\virtual-select.min.js"></script>
+       <script src="\js\list-all.js"></script>
+      
+
+</body>
+</html>

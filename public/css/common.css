@@ -1,3 +1,9 @@
+/*Defined Color*/
+:root {
+  --keyword: rgb(255, 255, 108);
+  --code: rgb(0, 228, 228);
+}
+
 /* CSS Sniper Loading */
 #snipper{
     display: none;
@@ -9,7 +15,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    z-index: 1;
+    z-index: 99999999999;
     background-color:rgba(0, 0, 0, 0.571);
   
   }
@@ -92,4 +98,22 @@
   *:after {
     box-sizing: border-box;
   }
+
+  /* Dasboard */
+.icon-tag-keyword{
+  font-size: 26px;
+  color: var(--keyword);
+}
+  
+.icon-tag-code{
+  font-size: 26px;
+  color: var(--code);
+}
+
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
   
