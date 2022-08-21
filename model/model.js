@@ -101,6 +101,5 @@ const logIPSchema = new mongoose.Schema({
 let Keyword = mongoose.model("Keyword", keyWordSchema);
 let User = mongoose.model("User", userChema);
 let LogIP = mongoose.model("LogIP", logIPSchema);
-let Favorite = mongoose.model("Favorite", favorite);
 
-module.exports = {Keyword, User,LogIP,Favorite};
+module.exports = {Keyword, User,LogIP};

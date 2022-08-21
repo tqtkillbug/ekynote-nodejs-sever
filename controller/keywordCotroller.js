@@ -1,7 +1,7 @@
 const { json } = require("body-parser");
 const bodyParser = require("body-parser");
 const { get } = require("mongoose");
-const {User, Keyword, Favorite}  = require("../model/model");
+const {User, Keyword}  = require("../model/model");
 const { getAllUser } = require("./userController");
 const constant = require('../configs/contain');
 const e = require("express");
@@ -150,11 +150,7 @@ const keywordController = {
         try {
             if(req.user.valueOf()){
                 if(req.body.noteId){
-                    const favoriteInit = new Favorite();
-                    favoriteInit.userId = req.user.id;
-                    favoriteInit.noteId = req.body.noteId;
-                    // const favorite = await Keyword.save(favoriteInit);
-                    // res.status(200).json(favorite);
+               
                 }
             }
             res.status(400).json("Param is reqire");

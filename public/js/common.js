@@ -1,5 +1,5 @@
 // const DOMAIN = "https://ekynote-staging.herokuapp.com";
-const DOMAIN = "http://localhost:8000";
+const DOMAIN = "";
 const PAGE_SIZE_NOTE = 10;
 
 const API_LOGIN = DOMAIN+ "/api/auth/login"
