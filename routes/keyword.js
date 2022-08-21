@@ -10,6 +10,8 @@ const verifyToken = securityController.verifyToken;
 
 router.post("/", verifyToken,keywordController.addKeyword);
 
+router.post("/favorite", verifyToken,keywordController.favorite);
+
 router.get("/keywords", verifyToken,keywordController.getAllKeyword);
 
 router.get("/images", verifyToken,keywordController.getAllImage);

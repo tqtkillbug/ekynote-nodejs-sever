@@ -57,14 +57,14 @@ const authController = {
                     await User.findByIdAndUpdate( {_id: user._id},{$set:{"refreshToken": refreshToken}},  {new: true})
                 }
                 res.cookie("accessToken","BeaBearer "+ accessToken, {
-                    secure: true,
                     httpOnly: true,
-                    sameSite: 'none'
+                    secure: false,
+                    sameSite: "strict"
                 });
                 res.cookie("refreshToken","BeaBearer "+ refreshToken, {
-                    secure: true,
                     httpOnly: true,
-                    sameSite: 'none'
+                    secure: false,
+                    sameSite: "strict"
                 });
                  const {password, ...others} = user._doc;
                 res.status(200).json({...others, accessToken, refreshToken});

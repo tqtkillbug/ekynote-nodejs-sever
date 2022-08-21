@@ -1,9 +1,10 @@
 const { json } = require("body-parser");
 const bodyParser = require("body-parser");
 const { get } = require("mongoose");
-const {User, Keyword} = require("../model/model");
+const {User, Keyword, Favorite}  = require("../model/model");
 const { getAllUser } = require("./userController");
 const constant = require('../configs/contain');
+const e = require("express");
 
 
 const keywordController = {
@@ -75,7 +76,7 @@ const keywordController = {
            if(noteId && newContent){
             const currNote = await Keyword.findById(noteId);
             if(currNote){
-            if(currNote.user !== req.user.id){
+            if(currNote.user.valueOf() !== req.user.id){
                return res.status(403).json("User not have access");
             }
             const newNote =  await Keyword.findByIdAndUpdate( {_id: currNote._id},{$set:{"content": newContent}},  {new: true})
@@ -143,6 +144,23 @@ const keywordController = {
 
         } catch (error) {
             return res.status(500).json(error);
+        }
+    },
+    favorite : async(req,res) =>{
+        try {
+            if(req.user.valueOf()){
+                if(req.body.noteId){
+                    const favoriteInit = new Favorite();
+                    favoriteInit.userId = req.user.id;
+                    favoriteInit.noteId = req.body.noteId;
+                    // const favorite = await Keyword.save(favoriteInit);
+                    // res.status(200).json(favorite);
+                }
+            }
+            res.status(400).json("Param is reqire");
+           
+        } catch (error) {
+            res.status(500).json(error);
         }
     }
 

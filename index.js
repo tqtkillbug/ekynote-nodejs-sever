@@ -13,14 +13,14 @@ const uploadRoute = require("./routes/upload");
 const scheduledTask = require('./service/schedule-task');
 const server = require("http").createServer(app);
 server.listen(process.env.PORT || 8000);
-const io = require('socket.io')(server, {
-    cors: {
-      origin: 'http://localhost:3000',
-    }
-  });
-  io.on("connection",(socket)=>{
-    // console.log("Socket connected");    
-  })
+// const io = require('socket.io')(server, {
+//     cors: {
+//       origin: 'http://localhost:3000',
+//     }
+//   });
+//   io.on("connection",(socket)=>{
+//     // console.log("Socket connected");    
+//   })
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan("common"));
