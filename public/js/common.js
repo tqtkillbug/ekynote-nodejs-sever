@@ -9,6 +9,8 @@ const API_GET_LIST_KEYWORD = DOMAIN + "/api/keyword/keywords"
 const API_UPDATE_KEYWORD = DOMAIN + "/api/keyword"
 const API_GET_LIST_IMAGE = DOMAIN + "/api/keyword/images"
 const API_GET_COUNT = DOMAIN + "/api/keyword/count"
+const API_FAVORITE = DOMAIN + "/api/keyword/favorite"
+const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
 
 
 class User {

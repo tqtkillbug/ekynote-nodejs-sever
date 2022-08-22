@@ -1,7 +1,13 @@
+
  VirtualSelect.init ({ 
   ele: '#select-multitest', 
   multiple: true 
 });
+
+$(document).ready(()=>{
+  $('[data-toggle="tooltip"]').tooltip();   
+
+})
 
 var pageIndex = 1;
 var totalPages = 10;
@@ -87,6 +93,19 @@ $(document).on('keypress','.text-content-full',function(event){
     console.log(event.target);
   }
 });
+
+$(document).on('click', '.btn-favorite', function() {
+  const idNote =   $(this).closest(".tr-note-data").attr("note-id");
+   favoriteKeyword(idNote,(data)=>{
+    console.log(data);
+    if(data.isFavorite == 1){
+      $(this).addClass("favorite-fill");
+    } else if(data.isFavorite == 0){
+      $(this).removeClass("favorite-fill");
+    }
+   });    
+});
+
    
 
 function copyToClipboard(text) {
@@ -171,13 +190,14 @@ function renderListNote(listNote) {
   <img class="favicon-page" src="${favicon}" alt="">
    <span>${keyword.hostName}</span>
 </td>
-<td class="title-page">${keyword.titlePage}</td>
+<td class="title-page" data-toggle="tooltip" title="${keyword.titlePage}">${keyword.titlePage}</td>
 <td class="col-sm-1 date-time-note">${formatISODate(keyword.createdAt)}</td>
 <td class="col-sm-2 ">
 <div class="group-at-btn">
   <a href="javascript:void(0)" class="ion ion-ios-add-circle-outline btn-outline-primary btn"></a>
-  <a href="javascript:void(0)" class="ion ion-md-star-outline btn-outline-primary btn"></a>
+  <a href="javascript:void(0)" class="ion ion-md-star-outline btn-outline-primary btn btn-favorite  ${checkFavorite(keyword.isFavorite)}"></a>
   <a href="javascript:void(0)" class="ion ion-ios-share-alt btn-outline-primary btn"></a>
+  <a href="javascript:void(0)" class="ion ion-md-trash btn-outline-danger btn"></a>
 </div>
 </td>
 </tr>
@@ -201,6 +221,8 @@ function renderListNote(listNote) {
        };
      }
      $("#table-list-note").append(item);
+   $('[data-toggle="tooltip"]').tooltip();   
+ 
   });
 }
 
@@ -224,6 +246,15 @@ function checkScrollAtBottom() {
    return true;
   }
   return false 
+}
+
+function checkFavorite(check){
+  console.log(check);
+  if(check == 0){
+    return "";
+  } else if(check == 1) {
+    return "favorite-fill";
+  }
 }
 
 function updateContent(id,newContent,callBack) {
@@ -253,4 +284,21 @@ function updateContent(id,newContent,callBack) {
 function toGoogleSeach(query){
     url ='http://www.google.com/search?q=' + query;
     window.open(url,'_blank');
+}
+
+
+function favoriteKeyword(id, callBack){
+  showLoading();
+  axios.post(API_FAVORITE, {noteId: id}, {withCredentials: true})
+          .then(function (response) {
+            if(response.status == 200){
+              callBack(response.data);
+            }
+          })
+          .catch(function (error) {
+            showToast(4,"Favorite Note Faild, Try Again!!");
+          })
+          .then(() => {
+            hideLoading();
+          });
 }

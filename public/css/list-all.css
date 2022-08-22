@@ -16,6 +16,17 @@ html{
     background-color:#0B374D;
     cursor: pointer;
 }
+
+.group-at-btn a{
+    height: 28px !important;
+    line-height: 13px;
+}
+
+
+.favorite-fill{
+    color: yellow !important;
+    background-color: #7ed957 !important;
+}
 /*Css Color Note Type*/
 .keyword-tag{
     border-left: 7px solid var(--keyword);

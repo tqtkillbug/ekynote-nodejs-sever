@@ -61,7 +61,6 @@ const keywordController = {
              var count = 0;
              keywords = await Keyword.find({user: req.user.id, type: { "$in" : ["3"]} }).sort({'createdAt': 'desc'}).skip(skip).limit(constant.PAGE_SIZE_NOTES);
              count = await Keyword.find({user: req.user.id,type: { "$in" : ["3"]} }).count();
-             console.log( req.user.id);
             } 
             return res.status(200).json({keywords,count});
            } catch (error) {
@@ -148,12 +147,27 @@ const keywordController = {
     },
     favorite : async(req,res) =>{
         try {
-            if(req.user.valueOf()){
+            if(req.user){
                 if(req.body.noteId){
-               
+                    const noteId = req.body.noteId;
+                  const currNote = await Keyword.findById(noteId);
+                  var isFavorite;
+                  if(currNote.user.valueOf() !== req.user.id){
+                    return res.status(403).json("User not have access");
+                  }
+                  if(currNote.isFavorite ==  0){
+                    isFavorite = 1;
+                  } else if(currNote.isFavorite ==  1){
+                    isFavorite = 0;
+                  } else{
+                    return res.status(400).json("Faild Try Again");
+                  }
+                  console.log(isFavorite);
+                 const newNote =  await Keyword.findByIdAndUpdate( {_id: currNote._id},{$set:{"isFavorite": isFavorite}},  {new: true});
+               return  res.status(200).json(newNote);
                 }
             }
-            res.status(400).json("Param is reqire");
+            return  res.status(400).json("Param is require");
            
         } catch (error) {
             res.status(500).json(error);
