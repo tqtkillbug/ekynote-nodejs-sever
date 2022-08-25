@@ -27,20 +27,60 @@ const keywordController = {
        try {
         if(req.user){
         var page = parseInt(req.query.page); 
+        var startDateParam = req.query.startDate; 
+        var endDateParam = req.query.endDate; 
+        var page = parseInt(req.query.page); 
+        var typeKeyword = ["1","2"];
+        var filterDate = {
+                "$gte": new Date("2022-01-01"), 
+                "$lt": new Date("2100-01-01"),
+        } 
+        var startDate;
+        var endDate;
+        var textSearch = "";
         if(!page || page < 0){
              return res.status(200).json(null);
-         } 
+         }
+         if(req.query.type != undefined && req.query.type !== null && req.query.type !== ""){
+            typeKeyword  = req.query.type.split(",");
+         }
+         const type = {
+            "$in":typeKeyword
+         }
+
+         if(req.query.startDate != undefined && req.query.startDate !== null && req.query.startDate !== "" && req.query.endDate != undefined && req.query.endDate !== null && req.query.endDate !== ""){
+            startDate = new Date(startDateParam);
+            endDate = new Date(endDateParam);
+            filterDate = {
+                    "$gte": startDate, 
+                    "$lt": endDate,
+           }  
+         }
+
+         if(req.query.textSearch != undefined && req.query.textSearch !== null && req.query.textSearch !== ""){
+            textSearch  = req.query.textSearch;
+            console.log(textSearch);
+         }
+        
          var skip = (page -1 ) * constant.PAGE_SIZE_NOTES;
          var keywords = null;
          var count = 0;
-         const user = await User.findById(req.user.id);
-         if(user.admin == true){
-            keywords = await Keyword.find({type: { "$in" : ["1","2"]}}).sort({'createdAt': 'desc'}).skip(skip).limit(constant.PAGE_SIZE_NOTES);;
-            count  = await Keyword.find().count();
-         } else {
-            keywords = await Keyword.find({user: req.user.id, type: { "$in" : ["1","2"]} }).sort({'createdAt': 'desc'}).skip(skip).limit(constant.PAGE_SIZE_NOTES);
-             count = await Keyword.find({user: req.user.id}).count();
-        } 
+        
+         keywords = await Keyword.find(
+        {"$user": req.user.id, type: type,
+         "$isDelete" : 0,  
+         createdAt:filterDate , 
+         "$or": [
+            {content: { $regex: textSearch, $options: "i" }},
+            { titlePage: { $regex: textSearch, $options: "i" }},
+            { hostName: { $regex: textSearch, $options: "i" }} ]
+        })
+        .sort({'createdAt': 'desc'})
+        .skip(skip)
+        .limit(constant.PAGE_SIZE_NOTES);
+        
+
+        count = await Keyword.find({user: req.user.id, type: type, isDelete : 0}).count();
         return res.status(200).json({keywords,count});
         } else{
             return res.status(403).json("Authentication failed");
@@ -171,6 +211,19 @@ const keywordController = {
            
         } catch (error) {
             res.status(500).json(error);
+        }
+    }, 
+    deleteKeyword: async(req,res)=>{
+        try {
+            const noteId = req.query.id;
+            const currNote = await Keyword.findById(noteId);
+            if(currNote.user.valueOf() !== req.user.id){
+                return res.status(403).json("User not have access");
+              }
+            const newNote =  await Keyword.findByIdAndUpdate( {_id: currNote._id},{$set:{"isDelete": 1}},  {new: true})
+            return res.status(200).json("success");
+        } catch (error) {
+            return res.status(500).json(error);
         }
     }
 

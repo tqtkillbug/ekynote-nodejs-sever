@@ -20,6 +20,8 @@ router.put("/", verifyToken,keywordController.updateContent);
 
 router.get("/count", verifyToken,keywordController.getCount);
 
+router.delete("/", verifyToken, keywordController.deleteKeyword);
+
 
 module.exports = router;
 

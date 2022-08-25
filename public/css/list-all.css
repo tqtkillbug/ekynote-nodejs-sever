@@ -105,6 +105,18 @@ td{
    
 }
 
+/*Overwrite date range picker*/
+.daterangepicker td.active{
+    background-color: #7ed957 !important;
+}
+
+.drp-selected{
+    display: none !important;
+}
+
+.daterangepicker .drp-buttons{
+    clear: inherit !important;
+}
 
 textarea {
     min-width: 91%;

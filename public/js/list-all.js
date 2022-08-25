@@ -1,19 +1,45 @@
 
  VirtualSelect.init ({ 
-  ele: '#select-multitest', 
-  multiple: true 
+  ele: '#select-typeKeyWord', 
+  multiple: true,
+  search: false
 });
-
-$(document).ready(()=>{
-  $('[data-toggle="tooltip"]').tooltip();   
-
-})
 
 var pageIndex = 1;
 var totalPages = 10;
 var calling = false;
+var pageCurr = 1;
+var isSearch = false;
+
+var startDate;
+var endDate;
+
+$(document).ready(()=>{
+  $('[data-toggle="tooltip"]').tooltip();   
+  $(function() {
+    $('#dateRangePicker').daterangepicker({
+      "minYear": 2022,
+      "maxYear": 2099,
+      "startDate": "08/25/2022",
+      "endDate": "08/27/2022",
+      "cancelClass": "btn-secondary"
+    }, function(start, end, label) {
+    // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+    });
+  });
+
+  $('#dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+    startDate = picker.startDate.format('YYYY-MM-DD');
+    endDate = picker.endDate.format('YYYY-MM-DD');
+  });
+})
+
+
+
+
+
 $(document).ready(function() {
-  getListNote(pageIndex);
+  getListNote(pageIndex, false);
 });
 
 
@@ -106,6 +132,20 @@ $(document).on('click', '.btn-favorite', function() {
    });    
 });
 
+$(document).on("click", ".btn-delete-keyword", function() {
+  const idNote =   $(this).closest(".tr-note-data").attr("note-id");
+  showComfirm(()=>{
+    deleteKeyword(idNote, ()=>{
+      $(this).closest(".tr-note-data").remove();
+    });
+  });
+})
+
+$(document).on("click", ".search-list-btn", function (){
+  isSearch = true;
+  getListNote(1);
+})
+
    
 
 function copyToClipboard(text) {
@@ -119,6 +159,7 @@ function copyToClipboard(text) {
 
 
 function getListNote(page){
+  var param = "";
   if(page == 0){
     page = 1;
   }
@@ -130,13 +171,18 @@ function getListNote(page){
     showLoading();
   }
   if(page > totalPages) return;
-  
-  axios.get(API_GET_LIST_KEYWORD + "?page=" + page, {withCredentials: true})
+  param = "?page="+ page;
+  pageCurr = page;
+  if(isSearch){
+    param =  initParamGetListKeyword(param);
+  }
+  console.log(param);
+  axios.get(API_GET_LIST_KEYWORD + param, {withCredentials: true})
     .then(function (response) {
     if(response.status === 200){
      if(response.data.keywords.length > 0){
       totalPages = calTotalPage(response.data.count);
-      renderListNote(response.data.keywords);
+      renderListNote(response.data.keywords, isSearch);
       }
        }
     })
@@ -156,12 +202,14 @@ function getListNote(page){
 $('#tb-scroll').on('scroll', function() {
 if(checkScrollAtBottom() && calling == true){
     getListNote(++pageIndex);
-    console.log(pageIndex);
 }
 });
 
 var lastTimeInList = "";
 function renderListNote(listNote) {
+  if(isSearch && pageCurr == 1){
+    $("#table-list-note").html("");
+  } 
   $.each(listNote, function (index, keyword) {
     let item = ``;
     let favicon = keyword.favicon == undefined ? "https://res.cloudinary.com/tqt-group/image/upload/v1659630147/noimage_h3wlg6.png" : keyword.favicon;
@@ -197,7 +245,7 @@ function renderListNote(listNote) {
   <a href="javascript:void(0)" class="ion ion-ios-add-circle-outline btn-outline-primary btn"></a>
   <a href="javascript:void(0)" class="ion ion-md-star-outline btn-outline-primary btn btn-favorite  ${checkFavorite(keyword.isFavorite)}"></a>
   <a href="javascript:void(0)" class="ion ion-ios-share-alt btn-outline-primary btn"></a>
-  <a href="javascript:void(0)" class="ion ion-md-trash btn-outline-danger btn"></a>
+  <a href="javascript:void(0)" class="ion ion-md-trash btn-outline-danger btn  btn-delete-keyword"></a>
 </div>
 </td>
 </tr>
@@ -220,7 +268,8 @@ function renderListNote(listNote) {
          </tr>`
        };
      }
-     $("#table-list-note").append(item);
+    
+  $("#table-list-note").append(item);
    $('[data-toggle="tooltip"]').tooltip();   
  
   });
@@ -249,7 +298,6 @@ function checkScrollAtBottom() {
 }
 
 function checkFavorite(check){
-  console.log(check);
   if(check == 0){
     return "";
   } else if(check == 1) {
@@ -301,4 +349,40 @@ function favoriteKeyword(id, callBack){
           .then(() => {
             hideLoading();
           });
+}
+
+function deleteKeyword(id,callSuccess){
+  showLoading();
+  axios.delete(API_DELETE_KEYWORD+ "?id=" + id, {withCredentials: true})
+          .then(function (response) {
+            if(response.status == 200){
+             if(response.data == "success"){
+              callSuccess();
+              showToast(2,"Delete Note Success!");
+             } else{
+             showToast(4,"Delete Note Faild, Try Again!!");
+             }
+            }
+          })
+          .catch(function (error) {
+            showToast(4,"Delete Note Faild, Try Again!!");
+          })
+          .then(() => {
+            hideLoading();
+          });
+}
+
+function initParamGetListKeyword(param){
+ var listValTypeKeyWord =  getValuesSelec("select-typeKeyWord");
+ var textSearch =  $("#keywordSeach").val();
+  if(listValTypeKeyWord.length !== 0){
+    param += "&type=" + listValTypeKeyWord;
+  }
+  if(startDate !== undefined && endDate !== undefined){
+   param += "&startDate=" + startDate + "&endDate=" + endDate;
+  }
+  if(textSearch !== undefined && textSearch !== ""){
+    param += "&textSearch=" + textSearch;
+  }
+  return param;
 }

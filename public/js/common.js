@@ -50,7 +50,8 @@ class User {
     // icon: '', // icon class
     transitionIn: 'flipInX',
     transitionOut: 'flipOutX',
-    position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+    position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+    
     onOpen: function () {
 
     },
@@ -117,5 +118,41 @@ class User {
   }
 
 
+function showComfirm(yesCallBack){
+  iziToast.question({
+    timeout: 99999999999999,
+    close: false,
+    overlay: true,
+    displayMode: 'once',
+    id: 'question',
+    zindex: 999,
+    progressBar : false,
+    title: 'Comfirm',
+    message: 'Are you sure delete that keyword?',
+    position: 'center',
+    buttons: [
+        ['<button><b>YES</b></button>', function (instance, toast) {
+            yesCallBack();
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+ 
+        }, true],
+        ['<button>NO</button>', function (instance, toast) {
+ 
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+ 
+        }],
+    ]
+   
+});
+}
 
+function getValuesSelec(idSelect) {
+  var selectValue = document.querySelector('#'+ idSelect).getSelectedOptions()
+  var listValStr = [];
+  for (let i = 0; i < selectValue.length; i++) {
+   listValStr.push(selectValue[i].value);
+  }
+
+ return listValStr;
+}
   

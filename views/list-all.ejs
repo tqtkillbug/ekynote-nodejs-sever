@@ -9,9 +9,11 @@
   <!-- App css -->
   
   <link href="assets\css\virtual-select.min.css" rel="stylesheet" type="text/css">
-  <link href="css\list-all.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="assets\highlight\styles\androidstudio.min.css">
+  
   <%- include('fragment/app-style'); -%>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link href="css\list-all.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -26,46 +28,30 @@
             <div class="container-fluid">
                 <div class="row mt-3">
                  <div class="col-md-2">
-                     <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note"> 
-                         <option value = "1">Code</option> 
-                         <option value = "2">Keyword</option> 
-                         <option value = "3">Favorite</option> 
+                     <select multiple id="select-typeKeyWord" name="native-select" placeholder = "Select Type Note"> 
+                         <option value = "1">Keyword</option> 
+                         <option value = "2">Code</option> 
                        </select>
                  </div>
-                 <div class="col-md-2">
-                    <select id="select-multitest"  name="native-select" placeholder = "Sort Type" data-search = "true" data-silent-initial-value-set = "true"> 
-                        <option value = "1">Date(Last)</option> 
-                        <option value = "2">Date(Old)</option> 
-                        <option value = "3">Page</option> 
-                        <option value = "4">Name(DESC)</option> 
-                      </select>
+                 <div class="col-md-3">
+                    <div class="input-group ">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Date</span>
+                        </div>
+                          <input aria-describedby="basic-addon1" class="form-control" id="dateRangePicker" type="text" name="daterange"  />
+
+                      </div>
                 </div>
                 <div class="col-md-2">
-                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
-                        <option value = "1"> Tùy chọn 1 </option> 
-                        <option value = "2"> Option 2 </option> 
-                        <option value = "3"> Option 3 </option> 
-                        <option value = "3"> Option 4 </option> 
-                        <option value = "3"> Option 5 </option> 
-                      </select>
+                    <div class="input-group mb-3">
+                        <input type="text" id="keywordSeach" class="form-control" placeholder="Keyword" aria-label="Keyword" aria-describedby="basic-addon3">
+                      </div>
                 </div>
+              
+            
+               
                 <div class="col-md-2">
-                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
-                        <option value = "1"> Tùy chọn 1 </option> 
-                        <option value = "2"> Option 2 </option> 
-                        <option value = "3"> Option 3 </option> 
-                        <option value = "3"> Option 4 </option> 
-                        <option value = "3"> Option 5 </option> 
-                      </select>
-                </div>
-                <div class="col-md-2">
-                    <select multiple id="select-multitest" name="native-select" placeholder = "Select Type Note" data-search = "true" data-silent-initial-value-set = "true"> 
-                        <option value = "1"> Tùy chọn 1 </option> 
-                        <option value = "2"> Option 2 </option> 
-                        <option value = "3"> Option 3 </option> 
-                        <option value = "3"> Option 4 </option> 
-                        <option value = "3"> Option 5 </option> 
-                      </select>
+                    <button type="button" class="btn btn-primary waves-effect width-md waves-light search-list-btn"><i class=" fas fa-search"></i> Search</button>
                 </div>
                 </div>
                 <div class="row mt-2">
@@ -118,6 +104,8 @@
     <script>hljs.highlightAll();</script>
     <%- include('fragment/scriptcommon'); -%>
        <script src="assets\js\virtual-select.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
        <script src="\js\list-all.js"></script>
       
 
