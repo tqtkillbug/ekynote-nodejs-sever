@@ -1,9 +1,48 @@
 
- VirtualSelect.init ({ 
+//  VirtualSelect.init ({ 
+//   ele: '#select-typeKeyWord', 
+//   multiple: true,
+//   selectedValue: [1,2,3],
+//   search: false
+// });
+
+VirtualSelect.init({
   ele: '#select-typeKeyWord', 
+  options: [
+    { label: 'Keyword', value: '1'},
+    { label: 'Code', value: '2'},
+    { label: 'Favorite', value: '3'},
+  ],
   multiple: true,
-  search: false
+  selectedValue: [1,2,3],
+  labelRenderer: renderLabelType,
+
 });
+
+function renderLabelType(data) {
+  let prefix = '';
+
+  /** skipping options those are added newly by allowNewOption feature */
+  if (!data.isCurrentNew && !data.isNew) {
+    /** project developer has to add their own logic to create image/icon tag */
+    // let flagIndex = data.value % flagClasses.length;
+    // prefix = `<i class="flag flag-${flagClasses[flagIndex]}"></i>`;
+    if(data.value == "1"){
+      prefix = `<img class="icon-select" src="images\\icons\\keyword-icon-select.png" >`
+    }
+    if(data.value == "2"){
+      prefix = `<img class="icon-select" src="images\\icons\\code-icon-select.png" >`
+    }
+    if(data.value == "3"){
+      prefix = `<img class="icon-select" src="images\\icons\\star-icon-select.png" >`
+    }
+  } else {
+    /** common image/icon could be added for new options */
+  }
+
+  return `${prefix}${data.label}`;
+}
+
 
 var pageIndex = 1;
 var totalPages = 10;
@@ -20,13 +59,14 @@ $(document).ready(()=>{
     $('#dateRangePicker').daterangepicker({
       "minYear": 2022,
       "maxYear": 2099,
-      "startDate": "08/25/2022",
-      "endDate": "08/27/2022",
+      "startDate": new Date(),
+      "endDate": new Date(),
       "cancelClass": "btn-secondary"
     }, function(start, end, label) {
     // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
     });
   });
+  
 
   $('#dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
     startDate = picker.startDate.format('YYYY-MM-DD');
@@ -39,7 +79,7 @@ $(document).ready(()=>{
 
 
 $(document).ready(function() {
-  getListNote(pageIndex, false);
+  getListNote(pageIndex, true);
 });
 
 
@@ -143,7 +183,7 @@ $(document).on("click", ".btn-delete-keyword", function() {
 
 $(document).on("click", ".search-list-btn", function (){
   isSearch = true;
-  getListNote(1);
+  getListNote(1,false);
 })
 
    
@@ -158,7 +198,7 @@ function copyToClipboard(text) {
 }
 
 
-function getListNote(page){
+function getListNote(page,isFirst){
   var param = "";
   if(page == 0){
     page = 1;
@@ -174,9 +214,8 @@ function getListNote(page){
   param = "?page="+ page;
   pageCurr = page;
   if(isSearch){
-    param =  initParamGetListKeyword(param);
+    param =  initParamGetListKeyword(param, isFirst);
   }
-  console.log(param);
   axios.get(API_GET_LIST_KEYWORD + param, {withCredentials: true})
     .then(function (response) {
     if(response.status === 200){
@@ -201,12 +240,13 @@ function getListNote(page){
 
 $('#tb-scroll').on('scroll', function() {
 if(checkScrollAtBottom() && calling == true){
-    getListNote(++pageIndex);
+    getListNote(++pageIndex,false);
 }
 });
 
 var lastTimeInList = "";
 function renderListNote(listNote) {
+  $(".tr-place-holder").remove();
   if(isSearch && pageCurr == 1){
     $("#table-list-note").html("");
   } 
@@ -221,13 +261,13 @@ function renderListNote(listNote) {
     if(index == 0 ){
       if(lastTimeInList !== ''){
         if(formatISODate(keyword.createdAt) !== lastTimeInList){
-          item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt)}</td> </tr>`
+          item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt, false)}</td> </tr>`
         }
       } else {
         if(formatISODate(keyword.createdAt) === formatISODate(new Date().toISOString())){
-          item += ` <tr ><td colspan="5" class="date-tr" >Today ${formatISODate(keyword.createdAt)}</td> </tr>`
+          item += ` <tr ><td colspan="5" class="date-tr" >Today ${formatISODate(keyword.createdAt, false)}</td> </tr>`
         } else{
-        item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt)}</td> </tr>`
+        item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt, false)}</td> </tr>`
       }
       } 
     }
@@ -239,13 +279,13 @@ function renderListNote(listNote) {
    <span>${keyword.hostName}</span>
 </td>
 <td class="title-page" data-toggle="tooltip" title="${keyword.titlePage}">${keyword.titlePage}</td>
-<td class="col-sm-1 date-time-note">${formatISODate(keyword.createdAt)}</td>
+<td class="col-sm-1 date-time-note">${formatISODate(keyword.createdAt,true)}</td>
 <td class="col-sm-2 ">
 <div class="group-at-btn">
-  <a href="javascript:void(0)" class="ion ion-ios-add-circle-outline btn-outline-primary btn"></a>
-  <a href="javascript:void(0)" class="ion ion-md-star-outline btn-outline-primary btn btn-favorite  ${checkFavorite(keyword.isFavorite)}"></a>
-  <a href="javascript:void(0)" class="ion ion-ios-share-alt btn-outline-primary btn"></a>
-  <a href="javascript:void(0)" class="ion ion-md-trash btn-outline-danger btn  btn-delete-keyword"></a>
+  <a href="javascript:void(0)" class="ion ion-md-add-circle "></a>
+  <a href="javascript:void(0)" class="ion ion-ios-star   btn-favorite ${checkFavorite(keyword.isFavorite)}"></a>
+  <a href="javascript:void(0)" class="ion ion-ios-share-alt  "></a>
+  <a href="javascript:void(0)" class="ion ion-md-trash    btn-delete-keyword"></a>
 </div>
 </td>
 </tr>
@@ -263,8 +303,8 @@ function renderListNote(listNote) {
 </tr>
      `;
      if(index < listNote.length - 1){
-       if(formatISODate(keyword.createdAt) !== formatISODate(listNote[index + 1].createdAt)){
-        item += ` <tr ><td colspan="5" class="date-tr">${formatISODate(listNote[index + 1].createdAt)}</td>
+       if(formatISODate(keyword.createdAt) !== formatISODate(listNote[index + 1].createdAt, false)){
+        item += ` <tr ><td colspan="5" class="date-tr">${formatISODate(listNote[index + 1].createdAt, false)}</td>
          </tr>`
        };
      }
@@ -273,13 +313,30 @@ function renderListNote(listNote) {
    $('[data-toggle="tooltip"]').tooltip();   
  
   });
+  if(pageCurr < totalPages) {
+    appendPlaceHolder();
+  };
+
 }
 
 
-function formatISODate(date) {
+function formatISODate(date,isInNote) {
   var date = new Date(date);
-  var dateFormat =   date.toISOString().substring(0, 10);
-   return dateFormat.split("-").reverse().join("-"); 1
+  var dateFormat =  date.toISOString().substring(0, 10);
+  var hours = date.getHours();
+  var minute = date.getMinutes();
+  if(hours < 10){
+    hours = "0"+ hours 
+  }
+  if(minute < 10){
+    minute = "0"+ minute 
+  }
+  if(isInNote){
+    return dateFormat.split(":").reverse().join(":") + "-" + hours + ":" + minute; 
+  } else {
+    return dateFormat.split("-").reverse().join("-");
+
+  }
 }
 
 function calTotalPage(totalRecord){
@@ -372,11 +429,14 @@ function deleteKeyword(id,callSuccess){
           });
 }
 
-function initParamGetListKeyword(param){
+function initParamGetListKeyword(param, isFirst){
  var listValTypeKeyWord =  getValuesSelec("select-typeKeyWord");
  var textSearch =  $("#keywordSeach").val();
   if(listValTypeKeyWord.length !== 0){
     param += "&type=" + listValTypeKeyWord;
+  }
+  if (isFirst) {
+     param += "&type=1,2,3"
   }
   if(startDate !== undefined && endDate !== undefined){
    param += "&startDate=" + startDate + "&endDate=" + endDate;
@@ -385,4 +445,20 @@ function initParamGetListKeyword(param){
     param += "&textSearch=" + textSearch;
   }
   return param;
+}
+
+function appendPlaceHolder() {
+  $("#table-list-note").append(` <tr class="tr-place-holder" >
+  <td colspan="5">
+      <div class="ph-item">
+          <div>
+            <div class="ph-row">
+              <div class="ph-col-12 "></div>
+              <div class="ph-col-8"></div>
+              <div class="ph-col-10 "></div>
+            </div>
+          </div>
+      </div>
+  </td>
+</tr>`)
 }

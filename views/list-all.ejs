@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="assets\highlight\styles\androidstudio.min.css">
   
   <%- include('fragment/app-style'); -%>
+  <link href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <link href="css\list-all.css" rel="stylesheet" type="text/css">
 
@@ -28,11 +29,16 @@
             <div class="container-fluid">
                 <div class="row mt-3">
                  <div class="col-md-2">
-                     <select multiple id="select-typeKeyWord" name="native-select" placeholder = "Select Type Note"> 
-                         <option value = "1">Keyword</option> 
-                         <option value = "2">Code</option> 
-                       </select>
+                     <!-- <select  id="select-typeKeyWord" name="native-select" placeholder = "Select Type Note"> 
+                      <option value="1">Keyword</option>
+                      <option value="2">Code</option>
+                      <option value="3">Favorite</option>
+                       </select> -->
+                       <div  id="select-typeKeyWord"></div>
+                      
                  </div>
+              
+                
                  <div class="col-md-3">
                     <div class="input-group ">
                         <div class="input-group-prepend">
@@ -61,7 +67,9 @@
                             <div class="row">   
                                 <div class="col-7">
                                     <h4 class="m-t-0 header-title mb-4"><b>List Note</b></h4>
+                                   
                                 </div>
+                               
                                 <!-- <div class="col-4  bg-secondary ">
                                     <div class="row border">
                                      <div class="col-2">
@@ -74,6 +82,7 @@
                                         <div class="col-4 al align-self-center text-light">Code</div>
                                     </div>
                                 </div> -->
+                               
                             </div>
  
                              <table class="table dt-responsive nowrap table-hover mt-2" id="tb-scroll" >
@@ -100,9 +109,9 @@
     <!-- <%- include('fragment/footer'); -%> -->
 
 
+    <%- include('fragment/scriptcommon'); -%>
     <script src="assets\highlight\highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <%- include('fragment/scriptcommon'); -%>
        <script src="assets\js\virtual-select.min.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

@@ -34,7 +34,10 @@ const keywordController = {
         var filterDate = {
                 "$gte": new Date("2022-01-01"), 
                 "$lt": new Date("2100-01-01"),
-        } 
+        }
+        var defaultFavo = {
+            "$in":[1,0]
+        }
         var startDate;
         var endDate;
         var textSearch = "";
@@ -44,8 +47,16 @@ const keywordController = {
          if(req.query.type != undefined && req.query.type !== null && req.query.type !== ""){
             typeKeyword  = req.query.type.split(",");
          }
-         const type = {
+         var type = {
             "$in":typeKeyword
+         }
+         if (typeKeyword.includes("3")) {
+            type = {
+                "$in":["1","2"]
+            }
+            defaultFavo = {
+                "$in":[1]
+            }
          }
 
          if(req.query.startDate != undefined && req.query.startDate !== null && req.query.startDate !== "" && req.query.endDate != undefined && req.query.endDate !== null && req.query.endDate !== ""){
@@ -67,9 +78,11 @@ const keywordController = {
          var count = 0;
         
          keywords = await Keyword.find(
-        {"$user": req.user.id, type: type,
-         "$isDelete" : 0,  
-         createdAt:filterDate , 
+        {user: req.user.id,
+         type: type,
+         isDelete : 0,  
+         isFavorite : defaultFavo,
+         createdAt:filterDate, 
          "$or": [
             {content: { $regex: textSearch, $options: "i" }},
             { titlePage: { $regex: textSearch, $options: "i" }},
@@ -79,8 +92,17 @@ const keywordController = {
         .skip(skip)
         .limit(constant.PAGE_SIZE_NOTES);
         
-
-        count = await Keyword.find({user: req.user.id, type: type, isDelete : 0}).count();
+        count = await Keyword.find(
+            {user: req.user.id,
+             type: type,
+             isDelete : 0,  
+             isFavorite : defaultFavo,
+             createdAt:filterDate, 
+             "$or": [
+                {content: { $regex: textSearch, $options: "i" }},
+                { titlePage: { $regex: textSearch, $options: "i" }},
+                { hostName: { $regex: textSearch, $options: "i" }} ]
+            }).count();
         return res.status(200).json({keywords,count});
         } else{
             return res.status(403).json("Authentication failed");
