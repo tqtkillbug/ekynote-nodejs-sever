@@ -9,12 +9,25 @@
 VirtualSelect.init({
   ele: '#select-typeKeyWord', 
   options: [
-    { label: 'Keyword', value: '1'},
-    { label: 'Code', value: '2'},
-    { label: 'Favorite', value: '3'},
+    { label: 'Keyword', value: '1',alias: 'typeKeyword' },
+    { label: 'Code', value: '2',alias: 'typeKeyword'},
+    { label: 'Favorite', value: '3',alias: 'typeKeyword'},
   ],
   multiple: true,
-  selectedValue: [1,2,3],
+  selectedValue: [1,2],
+  labelRenderer: renderLabelType,
+  search: false,
+  disableSelectAll: true
+});
+
+VirtualSelect.init({
+  ele: '#select-typeGroup', 
+  options: [
+    {label: 'Date group', value: '1',alias: 'typeGroup'},
+    {label: 'Web name group', value: '2',alias: 'typeGroup'},
+  ],
+  multiple: false,
+  selectedValue: [1],
   labelRenderer: renderLabelType,
 
 });
@@ -22,20 +35,28 @@ VirtualSelect.init({
 function renderLabelType(data) {
   let prefix = '';
 
-  /** skipping options those are added newly by allowNewOption feature */
   if (!data.isCurrentNew && !data.isNew) {
-    /** project developer has to add their own logic to create image/icon tag */
-    // let flagIndex = data.value % flagClasses.length;
-    // prefix = `<i class="flag flag-${flagClasses[flagIndex]}"></i>`;
-    if(data.value == "1"){
-      prefix = `<img class="icon-select" src="images\\icons\\keyword-icon-select.png" >`
+    console.log(data.value + "--" + data.alias);
+    if (data.alias == 'typekeyword') {
+      if(data.value == "1" ){
+        prefix = `<img class="icon-select" src="images\\icons\\keyword-icon-select.png" >`
+      } else
+      if(data.value == "2" ){
+        prefix = `<img class="icon-select" src="images\\icons\\code-icon-select.png" >`
+      } else
+      if(data.value == "3" ){
+        prefix = `<img class="icon-select" src="images\\icons\\star-icon-select.png" >`
+      }
+    } else if (data.alias == "typegroup") {
+      if(data.value == "1"){
+        prefix = `<img class="icon-select" src="images\\icons\\icons8-date-65.png" >`
+      }
+      if(data.value == "2"){
+        prefix = `<img class="icon-select" src="images\\icons\\icons8-web-48.png" >`
+      }
     }
-    if(data.value == "2"){
-      prefix = `<img class="icon-select" src="images\\icons\\code-icon-select.png" >`
-    }
-    if(data.value == "3"){
-      prefix = `<img class="icon-select" src="images\\icons\\star-icon-select.png" >`
-    }
+   
+   
   } else {
     /** common image/icon could be added for new options */
   }
@@ -163,7 +184,6 @@ $(document).on('keypress','.text-content-full',function(event){
 $(document).on('click', '.btn-favorite', function() {
   const idNote =   $(this).closest(".tr-note-data").attr("note-id");
    favoriteKeyword(idNote,(data)=>{
-    console.log(data);
     if(data.isFavorite == 1){
       $(this).addClass("favorite-fill");
     } else if(data.isFavorite == 0){
@@ -183,6 +203,7 @@ $(document).on("click", ".btn-delete-keyword", function() {
 
 $(document).on("click", ".search-list-btn", function (){
   isSearch = true;
+  pageIndex = 1;
   getListNote(1,false);
 })
 
@@ -206,7 +227,6 @@ function getListNote(page,isFirst){
   if(checkScrollAtBottom() && page > 1 && calling == false){
     return;
   }
-  calling = false;
   if(page == 1){
     showLoading();
   }
@@ -216,11 +236,13 @@ function getListNote(page,isFirst){
   if(isSearch){
     param =  initParamGetListKeyword(param, isFirst);
   }
+  calling = false;
   axios.get(API_GET_LIST_KEYWORD + param, {withCredentials: true})
     .then(function (response) {
     if(response.status === 200){
      if(response.data.keywords.length > 0){
       totalPages = calTotalPage(response.data.count);
+      pageIndex++;
       renderListNote(response.data.keywords, isSearch);
       }
        }
@@ -239,8 +261,11 @@ function getListNote(page,isFirst){
 }
 
 $('#tb-scroll').on('scroll', function() {
+
 if(checkScrollAtBottom() && calling == true){
-    getListNote(++pageIndex,false);
+    getListNote(pageIndex,false);
+} else if(checkScrollAtBottom()) {
+  $(".tr-place-holder").remove();
 }
 });
 
@@ -315,6 +340,8 @@ function renderListNote(listNote) {
   });
   if(pageCurr < totalPages) {
     appendPlaceHolder();
+  } else {
+    $(".tr-place-holder").remove();
   };
 
 }
@@ -431,6 +458,7 @@ function deleteKeyword(id,callSuccess){
 
 function initParamGetListKeyword(param, isFirst){
  var listValTypeKeyWord =  getValuesSelec("select-typeKeyWord");
+ var typeGroup =  getValuesSelec("select-typeGroup");
  var textSearch =  $("#keywordSeach").val();
   if(listValTypeKeyWord.length !== 0){
     param += "&type=" + listValTypeKeyWord;
