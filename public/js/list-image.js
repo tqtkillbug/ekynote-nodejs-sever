@@ -51,7 +51,7 @@ const getImagePagaintion =  function getListImage(){
 function renderImage(listImage) {
   $.each(listImage, function (index, item) {
   let itemImage = ` 
-  <a class="lightboxgallery-gallery-item" target="_blank" href="${item.content}" data-title=" "  data-desc="${item.titlePage} | ${formatISODate(item.createdAt)}">
+  <a class="lightboxgallery-gallery-item" target="_blank" href="${item.content}" data-title=" "  data-desc="${item.titlePage} | ${formatISODate(item.createdAt, true)}">
   <div>
     <img class="lazy" data-src="${item.content}" title="${item.content}">
     <div class="lightboxgallery-gallery-item-content">
@@ -62,6 +62,7 @@ function renderImage(listImage) {
           <div class="multi-btn-image">
           <i class="ion ion-md-eye btn-detail"></i> 
           <i class="fas fa-angle-double-down btn-download"></i>
+          <i class= "mdi mdi-trash-can"></i>
       </div>
   </span>
     </div>
@@ -75,10 +76,25 @@ loadLazy();
 
 
 
-function formatISODate(date) {
+function formatISODate(date,IsTime) {
+
   var date = new Date(date);
-  var dateFormat =   date.toISOString().substring(0, 10);
-   return dateFormat.split("-").reverse().join("-"); 1
+  var dateFormat =  date.toISOString().substring(0, 10);
+  var hours = date.getHours();
+  var minute = date.getMinutes();
+  if(hours < 10){
+    hours = "0"+ hours 
+  }
+  if(minute < 10){
+    minute = "0"+ minute 
+  }
+  if(IsTime){
+    return dateFormat.split(":").reverse().join(":") + "-" + hours + ":" + minute; 
+  } else {
+    return dateFormat.split("-").reverse().join("-");
+
+  }
+
 }
 
 function calTotalPage(totalRecord){

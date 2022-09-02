@@ -38,9 +38,17 @@ const keywordController = {
         var defaultFavo = {
             "$in":[1,0]
         }
+        var groupType = {
+            'createdAt': 'desc'
+        }
         var startDate;
         var endDate;
         var textSearch = "";
+         
+        var skip = (page -1 ) * constant.PAGE_SIZE_NOTES;
+        var keywords = null;
+        var count = 0;
+       
         if(!page || page < 0){
              return res.status(200).json(null);
          }
@@ -53,6 +61,21 @@ const keywordController = {
          if (typeKeyword.includes("3")) {
             type = {
                 "$in":["1","2"]
+            }
+            if(typeKeyword.includes("1") && typeKeyword.includes("2")){
+                type = {
+                    "$in":["1","2"]
+                }
+            }
+            if(typeKeyword.includes("1") && !typeKeyword.includes("2")){
+                type = {
+                    "$in":["1"]
+                }
+            }
+            if(!typeKeyword.includes("1") && typeKeyword.includes("2")){
+                type = {
+                    "$in":["2"]
+                }
             }
             defaultFavo = {
                 "$in":[1]
@@ -67,16 +90,18 @@ const keywordController = {
                     "$lt": endDate,
            }  
          }
-
          if(req.query.textSearch != undefined && req.query.textSearch !== null && req.query.textSearch !== ""){
             textSearch  = req.query.textSearch;
-            console.log(textSearch);
          }
-        
-         var skip = (page -1 ) * constant.PAGE_SIZE_NOTES;
-         var keywords = null;
-         var count = 0;
-        
+
+         if(req.query.typeGroup != undefined && req.query.typeGroup !== null && req.query.typeGroup !== ""){
+            if (req.query.typeGroup == "2") {
+                groupType = {
+                    'hostName': 'desc'
+                }
+            }
+         }
+       
          keywords = await Keyword.find(
         {user: req.user.id,
          type: type,
@@ -88,22 +113,22 @@ const keywordController = {
             { titlePage: { $regex: textSearch, $options: "i" }},
             { hostName: { $regex: textSearch, $options: "i" }} ]
         })
-        .sort({'createdAt': 'desc'})
+        .sort(groupType)
         .skip(skip)
         .limit(constant.PAGE_SIZE_NOTES);
         
         count = await Keyword.find(
             {user: req.user.id,
-             type: type,
-             isDelete : 0,  
-             isFavorite : defaultFavo,
-             createdAt:filterDate, 
-             "$or": [
-                {content: { $regex: textSearch, $options: "i" }},
-                { titlePage: { $regex: textSearch, $options: "i" }},
-                { hostName: { $regex: textSearch, $options: "i" }} ]
-            }).count();
-        return res.status(200).json({keywords,count});
+                type: type,
+                isDelete : 0,  
+                isFavorite : defaultFavo,
+                createdAt:filterDate, 
+                "$or": [
+                   {content: { $regex: textSearch, $options: "i" }},
+                   { titlePage: { $regex: textSearch, $options: "i" }},
+                   { hostName: { $regex: textSearch, $options: "i" }} ]
+               }).count();
+        return res.status(200).json({keywords,count,groupType});
         } else{
             return res.status(403).json("Authentication failed");
         }

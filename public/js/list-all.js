@@ -36,7 +36,6 @@ function renderLabelType(data) {
   let prefix = '';
 
   if (!data.isCurrentNew && !data.isNew) {
-    console.log(data.value + "--" + data.alias);
     if (data.alias == 'typekeyword') {
       if(data.value == "1" ){
         prefix = `<img class="icon-select" src="images\\icons\\keyword-icon-select.png" >`
@@ -241,9 +240,14 @@ function getListNote(page,isFirst){
     .then(function (response) {
     if(response.status === 200){
      if(response.data.keywords.length > 0){
+      $("#totalNote").html(response.data.count);
       totalPages = calTotalPage(response.data.count);
       pageIndex++;
-      renderListNote(response.data.keywords, isSearch);
+      if(response.data.groupType.createdAt){
+        renderListNote(response.data.keywords, 'groupDate');
+      } else if(response.data.groupType.hostName){
+        renderListNote(response.data.keywords,'groupWeb');
+      }
       }
        }
     })
@@ -270,11 +274,13 @@ if(checkScrollAtBottom() && calling == true){
 });
 
 var lastTimeInList = "";
-function renderListNote(listNote) {
+var lastHostName = "";
+function renderListNote(listNote,typeGroup) {
   $(".tr-place-holder").remove();
   if(isSearch && pageCurr == 1){
     $("#table-list-note").html("");
   } 
+
   $.each(listNote, function (index, keyword) {
     let item = ``;
     let favicon = keyword.favicon == undefined ? "https://res.cloudinary.com/tqt-group/image/upload/v1659630147/noimage_h3wlg6.png" : keyword.favicon;
@@ -283,19 +289,28 @@ function renderListNote(listNote) {
     if(index == listNote.length -1){
       lastTimeInList = keyword.createdAt;
     }
-    if(index == 0 ){
-      if(lastTimeInList !== ''){
-        if(formatISODate(keyword.createdAt) !== lastTimeInList){
+    if(typeGroup == "groupDate"){
+      if(index == 0 ){
+        if(lastTimeInList !== ''){
+          if(formatISODate(keyword.createdAt) !== lastTimeInList){
+            item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt, false)}</td> </tr>`
+          }
+        } else {
+          if(formatISODate(keyword.createdAt) === formatISODate(new Date().toISOString())){
+            item += ` <tr ><td colspan="5" class="date-tr" >Today ${formatISODate(keyword.createdAt, false)}</td> </tr>`
+          } else{
           item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt, false)}</td> </tr>`
         }
-      } else {
-        if(formatISODate(keyword.createdAt) === formatISODate(new Date().toISOString())){
-          item += ` <tr ><td colspan="5" class="date-tr" >Today ${formatISODate(keyword.createdAt, false)}</td> </tr>`
-        } else{
-        item += ` <tr ><td colspan="5" class="date-tr" >${formatISODate(keyword.createdAt, false)}</td> </tr>`
+        } 
       }
-      } 
-    }
+    } else if (typeGroup == "groupWeb") {
+      if(index == 0 ){
+        if (lastHostName !== keyword.hostName) {
+          item += ` <tr ><td colspan="5" class="date-tr" >${keyword.hostName}</td> </tr>`
+        }
+      }
+    } 
+    
     item += `
 <tr class="tr-note-data" note-id="${keyword._id}">
 <td class="content-note exploder ${tag}" >${keyword.content}</td>
@@ -327,12 +342,21 @@ function renderListNote(listNote) {
 </td>
 </tr>
      `;
-     if(index < listNote.length - 1){
-       if(formatISODate(keyword.createdAt) !== formatISODate(listNote[index + 1].createdAt, false)){
-        item += ` <tr ><td colspan="5" class="date-tr">${formatISODate(listNote[index + 1].createdAt, false)}</td>
-         </tr>`
-       };
+     if (typeGroup == 'groupDate') {
+      if(index < listNote.length - 1){
+        if(formatISODate(keyword.createdAt) !== formatISODate(listNote[index + 1].createdAt, false)){
+         item += ` <tr ><td colspan="5" class="date-tr">${formatISODate(listNote[index + 1].createdAt, false)}</td>
+          </tr>`
+        };
+      }
+     } else if (typeGroup = 'groupWeb') {
+      if(index < listNote.length - 1){
+        if(keyword.hostName !== listNote[index + 1].hostName){
+         item += ` <tr ><td colspan="5" class="date-tr">${listNote[index + 1].hostName}</td></tr>`
+        };
+      }
      }
+     lastHostName = keyword.hostName;
     
   $("#table-list-note").append(item);
    $('[data-toggle="tooltip"]').tooltip();   
@@ -458,19 +482,22 @@ function deleteKeyword(id,callSuccess){
 
 function initParamGetListKeyword(param, isFirst){
  var listValTypeKeyWord =  getValuesSelec("select-typeKeyWord");
- var typeGroup =  getValuesSelec("select-typeGroup");
+ var typeGroup =  $("#select-typeGroup").val();
  var textSearch =  $("#keywordSeach").val();
   if(listValTypeKeyWord.length !== 0){
     param += "&type=" + listValTypeKeyWord;
   }
   if (isFirst) {
-     param += "&type=1,2,3"
+     param += "&type=1,2"
   }
   if(startDate !== undefined && endDate !== undefined){
    param += "&startDate=" + startDate + "&endDate=" + endDate;
   }
   if(textSearch !== undefined && textSearch !== ""){
     param += "&textSearch=" + textSearch;
+  }
+  if (typeGroup) {
+    param += "&typeGroup=" + typeGroup;
   }
   return param;
 }

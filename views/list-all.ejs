@@ -28,21 +28,19 @@
             <!-- Start Content-->
             <div class="container-fluid">
                 <div class="row mt-3">
+                <div class="col-md-2">
+                        <div  id="select-typeGroup"></div>
+                </div>
+               
                  <div class="col-md-2">
-                     <!-- <select  id="select-typeKeyWord" name="native-select" placeholder = "Select Type Note"> 
-                      <option value="1">Keyword</option>
-                      <option value="2">Code</option>
-                      <option value="3">Favorite</option>
-                       </select> -->
                        <div  id="select-typeKeyWord"></div>
-                      
                  </div>
               
                 
                  <div class="col-md-3">
                     <div class="input-group ">
                         <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Date</span>
+                          <span class="input-group-text" style="padding: 0 5px;"><img class="icon-select" src="images\icons\icons8-date-65.png" ></span>
                         </div>
                           <input aria-describedby="basic-addon1" class="form-control" id="dateRangePicker" type="text" name="daterange"  />
 
@@ -70,18 +68,19 @@
                                    
                                 </div>
                                
-                                <!-- <div class="col-4  bg-secondary ">
+                                <div class="col-4">
                                     <div class="row border">
                                      <div class="col-2">
-                                     <i class=" mdi mdi-tag icon-tag-keyword"></i>
+                                        <span class="font-weight-bold text-center align-middle"> Total: </span> 
                                      </div>
-                                     <div class="col-4 align-self-center text-light" >Keyword</div>
                                      <div class="col-2">
-                                        <i class="mdi mdi-tag icon-tag-code"></i>
-                                        </div>
-                                        <div class="col-4 al align-self-center text-light">Code</div>
+                                        <span class="font-weight-bold align-middle" id="totalNote">0</span>
+                                     </div>
+                                     <div class="col-3 align-self-center text-center keyword-cl-fill " >Keyword</div>
+                                    <div class="col-3 al align-self-center text-center code-cl-fill ">Code</div>
+                                    <div class="col-1 setting-icon"> <i class=" ion ion-md-settings"></i></div>
                                     </div>
-                                </div> -->
+                                </div>
                                
                             </div>
  

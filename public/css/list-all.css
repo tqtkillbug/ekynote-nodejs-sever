@@ -115,9 +115,25 @@ td{
 }
 
 .code-view{
-   
 }
 
+.keyword-cl-fill{
+   background-color: var(--keyword);
+   border-radius: 4px;
+  margin: 3px;
+}
+.code-cl-fill{
+    background-color: var(--code);
+    border-radius: 4px;
+    margin: 3px;
+
+}
+.setting-icon{
+    font-size: 18px;
+    margin-left: 8px;
+    margin-top: 1px;
+    cursor: pointer;
+}
 /*Overwrite date range picker*/
 .daterangepicker td.active{
     background-color: #7ed957 !important;

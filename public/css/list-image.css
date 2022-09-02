@@ -285,7 +285,8 @@ i{
     float: right;
 }
 .multi-btn-image i{
-    padding: 9px;
+  padding: 2px;
+  padding-top: 10px;
 }
 .favicon-image img{
     width: 40px !important;
@@ -398,4 +399,7 @@ i{
   line-height: 1.2;
   font-weight: bold;
   letter-spacing: 1px;
+}
+.lightboxgallery-image:hover + .lightboxgallery-image-content{
+  display: block;
 }
