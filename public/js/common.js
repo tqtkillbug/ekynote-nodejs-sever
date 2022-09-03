@@ -11,6 +11,7 @@ const API_GET_LIST_IMAGE = DOMAIN + "/api/keyword/images"
 const API_GET_COUNT = DOMAIN + "/api/keyword/count"
 const API_FAVORITE = DOMAIN + "/api/keyword/favorite"
 const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
+const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
 
 
 class User {
@@ -118,7 +119,7 @@ class User {
   }
 
 
-function showComfirm(yesCallBack){
+function showComfirm( message,yesCallBack){
   iziToast.question({
     timeout: 99999999999999,
     close: false,
@@ -128,18 +129,15 @@ function showComfirm(yesCallBack){
     zindex: 999,
     progressBar : false,
     title: 'Comfirm',
-    message: 'Are you sure delete that keyword?',
+    message: message,
     position: 'center',
     buttons: [
         ['<button><b>YES</b></button>', function (instance, toast) {
             yesCallBack();
             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
- 
         }, true],
         ['<button>NO</button>', function (instance, toast) {
- 
             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
- 
         }],
     ]
    
