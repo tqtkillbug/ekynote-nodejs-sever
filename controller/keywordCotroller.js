@@ -143,18 +143,17 @@ const keywordController = {
             if(!page || page < 0){
                  return res.status(200).json(null);
              } 
-             var skip = (page -1 ) * constant.PAGE_SIZE_NOTES;
+             var skip = (page -1 ) * constant.PAGE_SIZE_IMAGES;
              var keywords = null;
              var count = 0;
-             keywords = await Keyword.find({user: req.user.id, type: { "$in" : ["3"]} }).sort({'createdAt': 'desc'}).skip(skip).limit(constant.PAGE_SIZE_NOTES);
-             count = await Keyword.find({user: req.user.id,type: { "$in" : ["3"]} }).count();
+             keywords = await Keyword.find({user: req.user.id, type: { "$in" : ["3"]}, isDelete : 0 }).sort({'createdAt': 'desc'}).skip(skip).limit(constant.PAGE_SIZE_IMAGES);
+             count = await Keyword.find({user: req.user.id,type: { "$in" : ["3"]}, isDelete : 0 }).count();
             } 
             return res.status(200).json({keywords,count});
            } catch (error) {
             res.status(500).json(error);
            }
-    }
-    ,
+    },
     updateContent : async(req,res) =>{
         try {
            const noteId = req.body.id;

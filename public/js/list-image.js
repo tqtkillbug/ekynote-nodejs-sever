@@ -6,7 +6,8 @@ handle = 0; // I just do this so I know I've cleared the interval
 $(document).ready(function() {
   // setInterval(function () {console.log("hihih");}, 1000);
 
-handle =  setInterval(getImagePagaintion, 2000);
+// handle =  setInterval(getImagePagaintion, 2000);
+getImagePagaintion();
 });
 
 
@@ -48,13 +49,19 @@ const getImagePagaintion =  function getListImage(){
     });
 }
 
+window.onscroll = function(ev) {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    getImagePagaintion();
+  }
+};
+
 function renderImage(listImage) {
   $.each(listImage, function (index, item) {
   let itemImage = ` 
-  <a class="lightboxgallery-gallery-item" target="_blank" href="${item.content}" data-title=" "  data-desc="${item.titlePage} | ${formatISODate(item.createdAt, true)}">
+  <a class="lightboxgallery-gallery-item"  target="_blank" href="${item.content}" data-title=" "  data-desc="${item.titlePage} | ${formatISODate(item.createdAt, true)}">
   <div>
     <img class="lazy" data-src="${item.content}" title="${item.content}">
-    <div class="lightboxgallery-gallery-item-content">
+    <div class="lightboxgallery-gallery-item-content" image-id="${item._id}">
       <span class="lightboxgallery-gallery-item-title">
           <div class="favicon-image">
               <img class="lazy" data-src="${item.favicon}" alt="${item.hostName}">
@@ -62,7 +69,7 @@ function renderImage(listImage) {
           <div class="multi-btn-image">
           <i class="ion ion-md-eye btn-detail"></i> 
           <i class="fas fa-angle-double-down btn-download"></i>
-          <i class= "mdi mdi-trash-can"></i>
+          <i class= "mdi mdi-trash-can btn-delete-image"></i>
       </div>
   </span>
     </div>
@@ -70,7 +77,7 @@ function renderImage(listImage) {
 </a>`
 $("#list-grid-images").append(itemImage);
 loadLazy();
-  })
+})
 
 }
 
@@ -105,6 +112,17 @@ function calTotalPage(totalRecord){
    return totalPage+1;
 }
 
+
+$(document).on("click", ".btn-delete-image", function() {
+  const imageId =   $(this).closest(".lightboxgallery-gallery-item-content").attr("image-id");
+  showComfirm('Are you sure delete that image?',()=>{
+    deleteImage(imageId, ()=>{
+      $(this).closest(".lightboxgallery-gallery-item").remove();
+    });
+  });
+})
+
+
 jQuery(function($) {
   $(document).on('click', '.btn-detail', function(event) {
     event.preventDefault();
@@ -126,6 +144,29 @@ jQuery(function($) {
   });
 
 });
+
+
+function deleteImage(id,callSuccess) {
+  showLoading();
+  axios.delete(API_DELETE_KEYWORD+ "?id=" + id, {withCredentials: true})
+          .then(function (response) {
+            if(response.status == 200){
+             if(response.data == "success"){
+              callSuccess();
+              showToast(2,"Delete Image Success!");
+             } else{
+              showToast(4,"Delete Image Faild, Try Again!!");
+             }
+            }
+          })
+          .catch(function (error) {
+            showToast(4,"Delete Image Faild, Try Again!!");
+          })
+          .then(() => {
+            hideLoading();
+          });
+}
+
 
 
 async function downloadImage(imageSrc) {
