@@ -12,6 +12,8 @@ const API_GET_COUNT = DOMAIN + "/api/keyword/count"
 const API_FAVORITE = DOMAIN + "/api/keyword/favorite"
 const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
 const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
+// API Team Space
+const API_NEW_SPACE = DOMAIN + "/api/space"
 
 
 class User {
@@ -153,4 +155,60 @@ function getValuesSelec(idSelect) {
 
  return listValStr;
 }
+
+var checkAddNewSpace = false;
+
+$(document).on("click",".new-space-btn", function () {
+  if (!checkAddNewSpace) {
+   $(`<li><a href="javascript: void(0);">
+    <input type="text" value="" placeholder="Name space"  class="ip-insert-name-space">
+    <p class="btn-save-new-space fas fa-check"></p>
+    <p class="menu-icon btn-cancel-new-space mdi mdi-backspace-reverse"></p>
+   </a></li>`).insertBefore($(this));
+   checkAddNewSpace = true;  
+  }
   
+       
+})
+
+
+$(document).on("click", ".btn-save-new-space", function(){
+  $("ip-insert-name-space").off('blur');
+  var nameNewSpace = $(".ip-insert-name-space").val();
+  if (nameNewSpace ==  undefined || nameNewSpace == null || nameNewSpace == "") {
+    return;
+  }
+  newTeamSpace(nameNewSpace, (data)=>{
+    showToast(2,"Create "+ data.name + " space success!");
+    $(this).siblings(".menu-icon").remove();
+    $(this).siblings("input").removeClass("ip-insert-name-space").addClass("ip-team-space");
+    $(this).closest("a").attr("href", "/space/"+ data._id);
+    $(this).remove();
+    checkAddNewSpace = false;
+  })
+})
+
+
+$(document).on("click", ".btn-cancel-new-space", function(){
+  $(this).closest('li').remove();
+  checkAddNewSpace = false;  
+})
+
+
+function newTeamSpace(nameSpace,callBack) {
+  showLoading();
+  axios.post(API_NEW_SPACE, {name: nameSpace}, {withCredentials: true})
+          .then(function (response) {
+            if(response.status == 200){
+              callBack(response.data);
+            } else{
+              showToast(4,"Create new Space faild, try again!!");
+            }
+          })
+          .catch(function (error) {
+            showToast(4,"Create new Space faild, try again!!");
+          })
+          .then(() => {
+            hideLoading();
+          });
+}

@@ -31,13 +31,20 @@
 
                         <li>
                             <a href="javascript: void(0);" class="waves-effect">
-                                <i class="mdi mdi-folder-text"></i>
-                                <span>Storage</span>
+                                <i class="ion ion-ios-folder-open"></i>
+                                <span>Team Space</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
-                                <li><a href="ui-typography.html">Favorite</a></li>
-                                <li><a href="ui-notification.html">Image</a></li>
+                                 <!-- <div id="list-team-space">
+
+                                 </div> -->
+                                    <% info.listSpace.forEach(function(space) { %>
+                                        <li><a href="/space/<%= space._id %>">
+                                            <input type="text" value="<%= space.name %>" disabled class="ip-team-space">
+                                        </a></li>
+                                    <% }); %>
+                                <li><a class="new-space-btn" href="javascript: void(0);">New Space</a></li>
                             </ul>
                         </li>
                         

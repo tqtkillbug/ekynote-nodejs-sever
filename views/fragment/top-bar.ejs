@@ -5,11 +5,11 @@
 
         <li class="dropdown d-none d-lg-block">
             <a class="nav-link dropdown-toggle mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="assets\images\flags\us.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
+                <img src="\assets\images\flags\us.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="assets\images\flags\vietnam.png" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Viet Nam</span>
+                    <img src="\assets\images\flags\vietnam.png" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Viet Nam</span>
                 </a>
             </div>
         </li>
@@ -96,20 +96,14 @@
                         </p>
                     </a>
                 </div>
-
-                <!-- All-->
-                <a href="javascript:void(0);" class="dropdown-item text-center notify-item notify-all">
-                        See all notifications
-                </a>
-
             </div>
         </li>
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="images\none_profile.png" alt="user-image" class="rounded-circle">
+                <img src="https://robohash.org/<%= info.id%>" alt="user-image" class="rounded-circle">
                 <span class="pro-user-name ml-1">
-                    Thompson   <i class="mdi mdi-chevron-down"></i> 
+                    <%= info.fullName%>  <i class="mdi mdi-chevron-down"></i> 
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -143,7 +137,7 @@
     <div class="logo-box">
         <a href="index.html" class="logo text-center logo-dark">
             <span class="logo-lg">
-                <img src="assets\images\logo-dark.png" alt="" height="18">
+                <img src="\assets\images\logo-dark.png" alt="" height="18">
                 <!-- <span class="logo-lg-text-dark">Velonic</span> -->
             </span>
          
@@ -151,7 +145,7 @@
 
         <a href="index.html" class="logo text-center logo-light">
             <span class="logo-lg">
-                <img src="assets\images\logo-light.png" alt="" height="18">
+                <img src="\assets\images\logo-light.png" alt="" height="18">
                 <!-- <span class="logo-lg-text-dark">Velonic</span> -->
             </span>
         </a>

@@ -94,6 +94,36 @@ const logIPSchema = new mongoose.Schema({
     }
 }, {timestamps : true})
 
+const spaceSchema = new mongoose.Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    name:{
+        type:String,
+        require: true
+    },
+    idOwner:{
+        type:String,
+        require:true
+    },
+    listKeywordId :[
+        {
+            type:String
+        }
+    ],
+    isDelete:{
+        type: Number,
+        default : 0
+    },
+    member:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ]
+ }, {timestamps : true})
+
 
 
 
@@ -101,5 +131,6 @@ const logIPSchema = new mongoose.Schema({
 let Keyword = mongoose.model("Keyword", keyWordSchema);
 let User = mongoose.model("User", userChema);
 let LogIP = mongoose.model("LogIP", logIPSchema);
+let TeamSpace = mongoose.model("TeamSpace", spaceSchema);
 
-module.exports = {Keyword, User,LogIP};
+module.exports = {Keyword, User,LogIP,TeamSpace};

@@ -17,17 +17,23 @@ const viewController = {
     },
 
     dashboard: (req,res) => {
-        res.render("dashboard");
+       res.render("dashboard", { info:req.infoUser});
     },
     list_all :(req,res) =>{
-        res.render("list-all");
+        res.render("list-all", { info:req.infoUser});
     },
     images_all :(req,res) =>{
-        res.render("list-images");
+        res.render("list-images", { info:req.infoUser});
+    },
+    teamSpace :(req,res) =>{
+        // console.log( req.params.id); 
+        res.render("team-space", { info:req.infoUser}) 
     }
 
   
 }
+
+
 
 
 module.exports = viewController;

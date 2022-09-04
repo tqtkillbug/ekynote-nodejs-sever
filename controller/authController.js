@@ -111,7 +111,7 @@ const authController = {
     logout: async (req,res) =>{
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
-        res.status(200).json("logouted")
+        res.redirect("/login");
     },
     generateToken:(user,secretKey,expiresIn) =>{
         return jwt.sign({

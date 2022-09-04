@@ -220,6 +220,9 @@ const keywordController = {
               ]).exec((err, result) => {
                 if (err) throw err;
                 const dataCount  = result[0];
+                dataCount.keywordCount = dataCount.keywordCount == null ? 0 : dataCount.keywordCount;
+                dataCount.codeCount = dataCount.codeCount == null ? 0 : dataCount.codeCount;
+                dataCount.imageCount = dataCount.imageCount == null ? 0 : dataCount.imageCount;
                 const total = dataCount.keywordCount + dataCount.codeCount + dataCount.imageCount;
                 dataCount.percentKeyword  = Number.parseInt(dataCount.keywordCount / total * 100);
                 dataCount.percentCode  = Number.parseInt(dataCount.codeCount / total * 100);

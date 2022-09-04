@@ -38,20 +38,20 @@ function renderLabelType(data) {
   if (!data.isCurrentNew && !data.isNew) {
     if (data.alias == 'typekeyword') {
       if(data.value == "1" ){
-        prefix = `<img class="icon-select" src="images\\icons\\keyword-icon-select.png" >`
+        prefix = `<img class="icon-select" src="\\images\\icons\\keyword-icon-select.png" >`
       } else
       if(data.value == "2" ){
-        prefix = `<img class="icon-select" src="images\\icons\\code-icon-select.png" >`
+        prefix = `<img class="icon-select" src="\\images\\icons\\code-icon-select.png" >`
       } else
       if(data.value == "3" ){
-        prefix = `<img class="icon-select" src="images\\icons\\star-icon-select.png" >`
+        prefix = `<img class="icon-select" src="\\images\\icons\\star-icon-select.png" >`
       }
     } else if (data.alias == "typegroup") {
       if(data.value == "1"){
-        prefix = `<img class="icon-select" src="images\\icons\\icons8-date-65.png" >`
+        prefix = `<img class="icon-select" src="\\images\\icons\\icons8-date-65.png" >`
       }
       if(data.value == "2"){
-        prefix = `<img class="icon-select" src="images\\icons\\icons8-web-48.png" >`
+        prefix = `<img class="icon-select" src="\\images\\icons\\icons8-web-48.png" >`
       }
     }
    
@@ -193,9 +193,10 @@ $(document).on('click', '.btn-favorite', function() {
 
 $(document).on("click", ".btn-delete-keyword", function() {
   const idNote =   $(this).closest(".tr-note-data").attr("note-id");
-  showComfirm(()=>{
+  showComfirm('Are you sure delete that keyword?',()=>{
     deleteKeyword(idNote, ()=>{
       $(this).closest(".tr-note-data").remove();
+      $('tr[extend-tab-id="'+idNote+'"]').remove();
     });
   });
 })
@@ -285,7 +286,11 @@ function renderListNote(listNote,typeGroup) {
     let item = ``;
     let favicon = keyword.favicon == undefined ? "https://res.cloudinary.com/tqt-group/image/upload/v1659630147/noimage_h3wlg6.png" : keyword.favicon;
     let tag = keyword.type == "1" ? "keyword-tag" : keyword.type == "2" ?  "code-tag" : "";
-
+    if ( keyword.type == "2") {
+       keyword.content = keyword.content.replace(/&/g, "&amp;");
+       keyword.content = keyword.content.replace(/</g, "&lt;");
+       keyword.content = keyword.content.replace(/>/g, "&gt;");
+    }
     if(index == listNote.length -1){
       lastTimeInList = keyword.createdAt;
     }
@@ -313,7 +318,7 @@ function renderListNote(listNote,typeGroup) {
     
     item += `
 <tr class="tr-note-data" note-id="${keyword._id}">
-<td class="content-note exploder ${tag}" >${keyword.content}</td>
+<td class="content-note exploder ${tag}" >${keyword.content}</textarea>
 <td class="col-sm-1 ">
   <img class="favicon-page" src="${favicon}" alt="">
    <span>${keyword.hostName}</span>
@@ -329,9 +334,10 @@ function renderListNote(listNote,typeGroup) {
 </div>
 </td>
 </tr>
-<tr class="extendTab hide">
+<tr class="extendTab hide" extend-tab-id="${keyword._id}">
 <td colspan="2" style="background-color: #3A6378; display: none;">
   <div class="text-wrap">
+  
     <textarea class="text-content-full"  spellcheck="false" disabled>${keyword.content}</textarea>
     <div class="list-btn-action">
       <a href="javascript:void(0)" class="ion ion-md-create btn-outline-primary btn btn-edit-note"></a>

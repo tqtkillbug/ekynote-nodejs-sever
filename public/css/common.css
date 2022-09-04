@@ -116,4 +116,36 @@
 .show{
   display: block;
 }
-  
+
+/* Left bar css */
+.ip-team-space{
+  border: none;
+  background-color: #1A2942;
+  color: #e6e6e6;
+  cursor: pointer;
+}
+
+.ip-team-space:hover{
+  color: var(--primary);
+}
+
+.menu-icon{
+  position: absolute;
+  right: 20px;
+  display: inline-block;
+  text-rendering: auto;
+  line-height: 25px !important;
+}
+
+.ip-insert-name-space{
+ width: 76%;
+ border-radius: 3px;
+ border: none;
+}
+
+.btn-cancel-new-space{
+  right: 12px !important;
+}
+.btn-cancel-new-space:hover{
+  color: red;
+}

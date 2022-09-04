@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { User, TeamSpace } = require("../model/model");
 const { use } = require("../routes/user");
 const { generateToken } = require("../securitys/jwtAuthencation");
 
@@ -37,7 +38,41 @@ const securityController  = {
           return  res.status(403).json("Not have access");
         }
       })
+    },
+    verifyUserAndInitInfo : (req,res,next) =>{
+      try {
+        const token = req.cookies.accessToken;
+        if(token){
+              const accessToken = token.split(" ")[1];
+              jwt.verify(accessToken, process.env.secret_key_jwt, async(err,user) => { 
+                  if(err){
+                      return res.redirect("/login");
+                  }
+                  req.user = user;
+                  const userDb = await User.findById(user.id);
+                  if (userDb && userDb.isDelete == 0) {
+                    const listSpace = await TeamSpace.find({user:user.id, isDelete: 0}); 
+                    console.log(listSpace);
+                    const info = {
+                       fullName : userDb.name,
+                       email:userDb.email,
+                       id: user.id,
+                       listSpace: listSpace
+                      }
+                      req.infoUser = info;
+                      next();
+                  } else {
+                      res.redirect('/error?code=403');
+                  }
+              });
+           } else{
+            return res.status(401).json("Not Login!")
+           }
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     }
+    
 }
 
 

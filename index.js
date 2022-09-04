@@ -11,6 +11,7 @@ const keywordRoute = require("./routes/keyword");
 const authRoute = require("./routes/auth");
 const viewRoute = require("./routes/view");
 const passport = require('passport');
+const spaceRoute = require("./routes/space");
 
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -67,6 +68,8 @@ app.use("/api/user", userRoute);
 
 app.use("/api/keyword", keywordRoute);
 
+app.use("/api/space", spaceRoute)
+
 app.use("/api/auth",authRoute);
 
 app.use("/",viewRoute);
@@ -74,6 +77,7 @@ app.use("/",viewRoute);
 app.use('/auth', require('./routes/auths'))
 
 app.use("/api/upload",uploadRoute);
+
 
 scheduledTask.initScheduledJobs();
 
