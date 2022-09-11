@@ -1,0 +1,102 @@
+.text-ver-center-tool-bar {
+    padding-top: 16px;
+}
+
+.icon-avatar-member {
+    height: 27px;
+    width: 27px;
+    margin-top: -13px;
+    margin-left: -3px;
+}
+
+.list-avatar-member {
+    border: #1A2942 1px solid;
+    border-radius: 3px;
+}
+
+.list-avatar-member li {
+    padding: 4px 0;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #585858;
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #434342;
+}
+
+.slick-slide img {
+    display: inline !important;
+}
+
+.card-note {
+    padding: 12px !important;
+}
+
+.note-content-view {
+    background-color: #1A2942;
+    border-radius: 3px;
+    padding: 10px;
+    color: white;
+    max-width: 50% !important;
+    cursor: pointer;
+}
+.note-text-view{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.note-text-view::before {
+    content: '"';
+    color: rgb(7, 183, 232);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.note-text-view::after {
+    content: '"';
+    color: rgb(7, 183, 232);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.right-box-info{
+    max-width: 48%;
+    width: 48%;
+    border-radius: 3px;
+    border: solid 2px gray;
+    margin-left: 6px;
+    height: 69px;
+    padding: 6px;
+}
+
+.logo-page{
+    height: 27px;
+    width: 27px;
+}
+
+.title-page{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: bold;
+}

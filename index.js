@@ -19,6 +19,7 @@ const MongoStore = require('connect-mongo')(session)
 require('./securitys/passport')(passport)
 const uploadRoute = require("./routes/upload");
 const scheduledTask = require('./service/schedule-task');
+
 const server = require("http").createServer(app);
 server.listen(process.env.PORT || 8000);
 // const io = require('socket.io')(server, {
@@ -40,12 +41,14 @@ dotenv.config();
 // Config DB
 
 
+
 mongoose.connect(process.env.mongodb_url,{
     useNewUrlParser:true,
     useUnifiedTopology: true
 }, () => {
   console.log("<---------------------------------------Connected Mongo DB------------------------------>");
 })
+
 
 
 dotenv.config();

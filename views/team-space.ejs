@@ -14,6 +14,8 @@
   <%- include('fragment/app-style'); -%>
   <link href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick-theme.css"/>
   <link href="\css\team-space.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -27,31 +29,77 @@
 
             <!-- Start Content-->
             <div class="container-fluid">
+                <div class="row mt-3 card border-primary ">
+                    <div class="col-4 ">
+                        <div class="row ">
+                            <div class="col-3 text-ver-center-tool-bar font-weight-bold">Members(5):</div>
+                                <div class="col-1">
+                                    <i class="ion ion-md-add-circle-outline" style="padding-top: 16px;font-size: 24px; cursor: pointer;"></i> </i>
+                                </div>
+                            <div class="col-8">
+                                <ul class="social-links list-inline mb-2 mt-2 list-avatar-member ">
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261a4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261rtya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="LinkedIn"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261rtyrea4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261a4c2effdg97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261reyrya4c2ef97c4f" alt=""></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row mt-3">
 
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <a class="mr-3" href="#">
-                                        <img class="avatar-md rounded-circle bx-s" src="\assets\images\users\avatar-5.jpg" alt="">
-                                    </a>
-                                    <div class="media-body info">
-                                        <h5 class="mt-0 font-16 pt-1 mb-1">Mark Smith</h5>
-                                        <p class="text-muted">Graphics Designer</p>
+                            <div class="card-body card-note">
+                                <div class="media ">
+                                    <div class="media-body info note-content-view">
+                                       <p class="note-text-view">Graphics Designer DesignerDesignerDesignerDesignerDesigner</p>
                                     </div>
-                                    <div class="btn-group-sm">
-                                        <a href="#" class="btn btn-success mr-1 tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
-                                            <i class="fas fa-times"></i>
-                                        </a>
+                                    <div class="float-right right-box-info  ">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <a  href="#">
+                                                    <img class="logo-page rounded" src="https://lh3.googleusercontent.com/d/15WtQJYBhsLFCbtidI7GpJKOcpAkgeoka" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="col-10"><span>Facebook.com</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 title-page" >Node.js Tutorial: Phần 7 - Sử dụng EJS làm Template Engine trong Express	 </div>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 
                                 <hr>
-                                <ul class="social-links list-inline mt-4 mb-0">
+                                <!-- <ul class="social-links list-inline mt-3 mb-0">
                                     <li class="list-inline-item">
                                         <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fab fa-facebook-f"></i></a>
                                     </li>
@@ -67,7 +115,15 @@
                                     <li class="list-inline-item">
                                         <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><i class="far fa-envelope-open"></i></a>
                                     </li>
-                                </ul>
+                                </ul> -->
+                                 <div class="row">
+                                    <div class="col-10"></div>
+                                    <div class="col-2">
+                                        <a  href="#">
+                                            <img class="avatar-sm rounded-circle bx-s" src="https://lh3.googleusercontent.com/d/15WtQJYBhsLFCbtidI7GpJKOcpAkgeoka" alt="">
+                                        </a>
+                                    </div>
+                                 </div>
                             </div>
                             <!-- card-body -->
                         </div>
@@ -188,6 +244,7 @@
        <script src="\assets\js\virtual-select.min.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
        <script src="\js\team-space.js"></script>
       
 

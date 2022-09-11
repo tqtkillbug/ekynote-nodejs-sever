@@ -1,14 +1,15 @@
-const express = require('express');
-const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
-const {User, Keyword} = require("../model/model");
 const cloudinaryService = require("../service/cloudinary.service");
+const driveSerice = require("../service/google-drive.service");
 const securityController = require("../controller/securityController");
+const router = require("express").Router();
 
 const verifyToken = securityController.verifyToken;
 const verifyAdmin = securityController.verifyAdmin;
 
-router.post('/image',verifyToken,fileUploader.single('file'),cloudinaryService.uploadImage);
+router.post('/image',verifyToken,cloudinaryService.uploadImageByUrl);
+// router.post('/image',verifyToken,fileUploader.single('file'),cloudinaryService.uploadImage);
+// router.post('/image',verifyToken,upload.single('file'),driveSerice.uploadFile);
 router.get("/admin/all-image",verifyAdmin,cloudinaryService.getAllImage);
 
 module.exports = router;

@@ -52,7 +52,6 @@ const securityController  = {
                   const userDb = await User.findById(user.id);
                   if (userDb && userDb.isDelete == 0) {
                     const listSpace = await TeamSpace.find({user:user.id, isDelete: 0}); 
-                    console.log(listSpace);
                     const info = {
                        fullName : userDb.name,
                        email:userDb.email,

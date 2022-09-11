@@ -160,7 +160,7 @@ var checkAddNewSpace = false;
 
 $(document).on("click",".new-space-btn", function () {
   if (!checkAddNewSpace) {
-   $(`<li><a href="javascript: void(0);">
+   $(`<li><a href="javascript: void(0); " class="pl-0">
     <input type="text" value="" placeholder="Name space"  class="ip-insert-name-space">
     <p class="btn-save-new-space fas fa-check"></p>
     <p class="menu-icon btn-cancel-new-space mdi mdi-backspace-reverse"></p>
