@@ -1,3 +1,8 @@
+initScript();
+
+
+
+
 // const DOMAIN = "https://ekynote-staging.herokuapp.com";
 const DOMAIN = "";
 const PAGE_SIZE_NOTE = 10;
@@ -14,6 +19,13 @@ const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
 const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
 // API Team Space
 const API_NEW_SPACE = DOMAIN + "/api/space"
+
+
+
+
+function initScript() {
+  fillMenuSpace();
+}
 
 
 class User {
@@ -211,4 +223,39 @@ function newTeamSpace(nameSpace,callBack) {
           .then(() => {
             hideLoading();
           });
+}
+
+var setParamUrl = function(_k, _v,_u) {
+  var url = new URL(_u);
+  let arrParams =url.search !== '' ? decodeURIComponent(window.location.search.substr(1)).split('&').map(_v => _v.split('=')) : Array();
+  let index = arrParams.findIndex((_v) => _v[0] === _k); 
+  index = index !== -1 ? index : arrParams.length;
+  _v === null ? arrParams = arrParams.filter((_v, _i) => _i != index) : arrParams[index] = [_k, _v];
+  let _search = arrParams.map(_v => _v.join('=')).join('&');
+
+  let newurl =url.protocol + "//" +url.host +url.pathname + (arrParams.length > 0 ? '?' +  _search : ''); 
+  return newurl;
+};
+
+// Common Utils 
+function toGoogleSeach(query){
+  url ='http://www.google.com/search?q=' + query;
+  window.open(url,'_blank');
+}
+
+function copyToClipboard(text) {
+  var sampleTextarea = document.createElement("textarea");
+  document.body.appendChild(sampleTextarea);
+  sampleTextarea.value = text; //save main text in it
+  sampleTextarea.select(); //select textarea contenrs
+  document.execCommand("copy");
+  document.body.removeChild(sampleTextarea);
+}
+
+function fillMenuSpace() {
+  var pathName = window.location.pathname;
+  if (pathName.includes('space/')) {
+    $('a[href="'+ pathName+'"]').find('input').css('color', '#7ED957');
+  }
+  
 }

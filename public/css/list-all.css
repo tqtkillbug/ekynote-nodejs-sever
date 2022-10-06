@@ -41,13 +41,7 @@ html{
     color: rgb(225, 225, 7) !important;
 }
 /*Css Color Note Type*/
-.keyword-tag{
-    border-left: 7px solid var(--keyword);
-}
 
-.code-tag{
-    border-left: 7px solid var(--code);
-}
 .content-note::after{
     content: '"';
     color: rgb(7, 183, 232);

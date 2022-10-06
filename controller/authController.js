@@ -7,7 +7,7 @@ const promisify = require('util').promisify;
 const jwt = require("jsonwebtoken");
 const e = require("express");
 const verify = promisify(jwt.verify).bind(jwt);
-
+const logger = require("../logger/logger")
 
 
 
@@ -45,6 +45,7 @@ const authController = {
                  user.password
             );
             if(!validPassword){
+                logger.warn(`User: ${user.email} Login faild`)
                 res.status(400).json("Login Faild!");
             }
             if(user && validPassword){
@@ -67,9 +68,11 @@ const authController = {
                     sameSite: "strict"
                 });
                  const {password, ...others} = user._doc;
+                 logger.info(`User: ${user.email} Login Success`)
                 res.status(200).json({...others, accessToken, refreshToken});
             }
         } catch (error) {
+            logger.error(error)
             res.status(500).json("Error");
         }
     },

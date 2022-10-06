@@ -104,6 +104,14 @@
   font-size: 26px;
   color: var(--keyword);
 }
+
+.keyword-tag{
+  border-left: 6px solid var(--keyword);
+}
+
+.code-tag{
+  border-left: 6px solid var(--code);
+}
   
 .icon-tag-code{
   font-size: 26px;
@@ -148,4 +156,10 @@
 }
 .btn-cancel-new-space:hover{
   color: red;
+}
+/*Disable select text*/
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }

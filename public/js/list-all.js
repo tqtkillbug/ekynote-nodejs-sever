@@ -207,16 +207,21 @@ $(document).on("click", ".search-list-btn", function (){
   getListNote(1,false);
 })
 
+$(document).on("click", ".btn-to-page" , function () {
+ var urlPage =  $(this).attr('pageUrl');
+ var content =  $(this).closest(".tr-note-data").find('.content-note').text().trim();
+ if (urlPage == "" || urlPage == null || content == null || content == "") {
+    showToast(4,"To This Page Faild!"); 
+ } else {
+  var contentFormat = content.replace(/ /g, '%20');
+  var newUrl =  setParamUrl('ekytext', contentFormat, urlPage);
+  window.open(
+    newUrl, "_blank");
+ }
+})
+
    
 
-function copyToClipboard(text) {
-  var sampleTextarea = document.createElement("textarea");
-  document.body.appendChild(sampleTextarea);
-  sampleTextarea.value = text; //save main text in it
-  sampleTextarea.select(); //select textarea contenrs
-  document.execCommand("copy");
-  document.body.removeChild(sampleTextarea);
-}
 
 
 function getListNote(page,isFirst){
@@ -328,9 +333,9 @@ function renderListNote(listNote,typeGroup) {
 <td class="col-sm-2 ">
 <div class="group-at-btn">
   <a href="javascript:void(0)" class="ion ion-md-add-circle "></a>
-  <a href="javascript:void(0)" class="ion ion-ios-star   btn-favorite ${checkFavorite(keyword.isFavorite)}"></a>
-  <a href="javascript:void(0)" class="ion ion-ios-share-alt  "></a>
-  <a href="javascript:void(0)" class="ion ion-md-trash    btn-delete-keyword"></a>
+  <a href="javascript:void(0)" class="ion ion-ios-star btn-favorite ${checkFavorite(keyword.isFavorite)}"></a>
+  <a href="javascript:void(0)"   pageUrl="${keyword.url}" class="ion ion-ios-share-alt btn-to-page"></a>
+  <a href="javascript:void(0)" class="ion ion-md-trash  btn-delete-keyword"></a>
 </div>
 </td>
 </tr>
