@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 
 
 const viewController = {
-   
     showLogin: (req,res) =>{
         res.render("login");
     },

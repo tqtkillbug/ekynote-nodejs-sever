@@ -7,6 +7,8 @@ const verifyToken = securityController.verifyToken;
 
 router.post("/",verifyToken,spaceController.addNewSpace);
 
+router.post("/add_mem",verifyToken,spaceController.addMem);
+
 
 
 module.exports = router;

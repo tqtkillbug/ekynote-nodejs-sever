@@ -19,7 +19,7 @@ const storage = new CloudinaryStorage({
   },
   allowedFormats: ['jpg', 'png'],
   filename: function (req, file, cb) {
-    cb(null,"eky-i_" + new Date().toISOString());
+    cb(null,"eta-i_" + new Date().toISOString());
   }
 });
 

@@ -40,7 +40,7 @@ const cloudinaryService = {
                const imageUrl = req.body.content;
                console.log(imageUrl);
                const is =  await cloudinary.v2.uploader
-               .upload (imageUrl, {folder: ContainCommon.FOLDER_CLOUDINARY_FOR_IMAGE_USER_UPLOAD, tags: 'eky-image-staging'})
+               .upload (imageUrl, {folder: ContainCommon.FOLDER_CLOUDINARY_FOR_IMAGE_USER_UPLOAD, tags: 'eta-image-staging'})
                .then ( async (response)=> {
                 const keywordTypeImg = new Keyword(req.body);
                 keywordTypeImg.content = response.url;

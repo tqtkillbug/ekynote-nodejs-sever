@@ -72,7 +72,7 @@
     }
 
     function appendToken(token){
-       $("body").append(`<input type="hidden" id="eky_token_login" value="${token}">`)
+       $("body").append(`<input type="hidden" id="eta_token_login" value="${token}">`)
     } 
 })(jQuery);
 

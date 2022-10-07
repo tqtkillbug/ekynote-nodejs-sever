@@ -214,7 +214,7 @@ $(document).on("click", ".btn-to-page" , function () {
     showToast(4,"To This Page Faild!"); 
  } else {
   var contentFormat = content.replace(/ /g, '%20');
-  var newUrl =  setParamUrl('ekytext', contentFormat, urlPage);
+  var newUrl =  setParamUrl('etatext', contentFormat, urlPage);
   window.open(
     newUrl, "_blank");
  }

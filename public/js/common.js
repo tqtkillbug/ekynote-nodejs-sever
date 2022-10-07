@@ -19,6 +19,7 @@ const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
 const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
 // API Team Space
 const API_NEW_SPACE = DOMAIN + "/api/space"
+const API_ADD_MEMBER = DOMAIN + "/api/space/add_mem"
 
 
 
@@ -61,7 +62,7 @@ class User {
   iziToast.settings({
     timeout: 3000, // default timeout
     resetOnHover: true,
-    title: "Eky: ",
+    title: "Eta: ",
     // icon: '', // icon class
     transitionIn: 'flipInX',
     transitionOut: 'flipOutX',

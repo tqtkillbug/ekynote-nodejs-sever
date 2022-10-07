@@ -68,7 +68,7 @@
         axios.post(API_REGISTER, {name: user.name,email: user.email, password: user.password})
           .then(function (response) {
             if(response.status == 200){
-                showToast(2,"Successfully Register, Please Login To Eky Note!");
+                showToast(2,"Successfully Register, Please Login To Eta Note!");
                 window.setTimeout( function(){
                     window.location = "/login";
                 }, 2500 );

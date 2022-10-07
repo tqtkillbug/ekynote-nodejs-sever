@@ -55,7 +55,7 @@ dotenv.config();
 
 app.use(
     session({
-      secret: 'Eky Note',
+      secret: 'Eta_note',
       resave: false,
       saveUninitialized: false,
       store: new MongoStore({ mongooseConnection: mongoose.connection }),

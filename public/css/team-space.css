@@ -182,3 +182,7 @@ textarea{
     color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.iziToast-capsule{
+    margin-left: 70px;
+}

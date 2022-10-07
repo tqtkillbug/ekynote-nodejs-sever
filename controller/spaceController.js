@@ -23,6 +23,13 @@ const spaceController = {
         } catch (error) {
             res.status(500).json(error);
         }
+    },
+    addMem : async(req,res) =>{
+      const email = req.body.email;
+      if (email) {
+         console.log(email);
+      }
+      res.status(200).send(email);
     }
 
 }

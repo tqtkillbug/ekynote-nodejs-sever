@@ -76,4 +76,46 @@ $(document).on('click', ".note-content-view textarea", function(e){
 function checkEditingNote(el) {
   if (el.find('.note-text-view').find('textarea').length) return true;
   return false;
+}     
+
+$(document).on("click", "#btn-add-member", function(e) {
+  openAddMember(e)
+})
+function openAddMember(e) { 
+  iziToast.info({
+    timeout: 20000,
+    displayMode: 'once',
+    id: 'inputs',
+    zindex: 999999,
+    maxWidth:'410',
+    title: 'Add Member',
+    drag: false,
+    target: '.area-tool-bar',
+    targetFirst: false,
+    inputs: [
+        ['<input type="text" id="emailMemberAdd">', 'keyup', function (instance, toast, input, e) {
+           
+        }, true],
+    ], buttons: [
+      ['<button><b>Invite</b></button>', function (instance, toast) {
+          let email = $('#emailMemberAdd').val();
+          checkMemberExist(email);
+          instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+      }, true],
+    
+  ],
+});
 }
+ function checkMemberExist(email) {
+  axios.post(API_ADD_MEMBER, {email: email}, {withCredentials: true})
+     .then(function (response) {
+       console.log(response);
+      showToast(2,"Update Content Success!");
+     })
+    .catch(function (error) {
+      showToast(1,"Add Member Error");
+    })
+    .then(() => {
+      hideLoading();
+    });
+ }
