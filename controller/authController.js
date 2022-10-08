@@ -120,7 +120,8 @@ const authController = {
         return jwt.sign({
             id: user.id,
             email: user.email,
-            admin: user.admin
+            admin: user.admin,
+            fullName: user.name
         },
         secretKey,
         {expiresIn :  expiresIn}

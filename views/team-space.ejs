@@ -31,10 +31,11 @@
             <!-- Start Content-->
             <div class="container-fluid">
                 <div class= "area-tool-bar">
+                    <input type="hidden" id="spaceId" value="<%= spaceInfo.id%>">
                     <div class="card border-primary tool-bar-fixed mx-auto">
                         <div class="col-4 ">
                             <div class="row ">
-                                <div class="col-3 text-ver-center-tool-bar font-weight-bold">Members(5)</div>
+                                <div class="col-3 text-ver-center-tool-bar font-weight-bold">Members(<%= spaceInfo.memberCount %>)</div>
                                     <div class="col-1">
                                         <i class="ion ion-md-add-circle-outline" id="btn-add-member" style="padding-top: 16px;font-size: 24px; cursor: pointer;"></i> </i>
                                     </div>

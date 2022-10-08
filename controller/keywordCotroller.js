@@ -251,7 +251,6 @@ const keywordController = {
                   } else{
                     return res.status(400).json("Faild Try Again");
                   }
-                  console.log(isFavorite);
                  const newNote =  await Keyword.findByIdAndUpdate( {_id: currNote._id},{$set:{"isFavorite": isFavorite}},  {new: true});
                return  res.status(200).json(newNote);
                 }

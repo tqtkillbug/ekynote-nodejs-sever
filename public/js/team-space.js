@@ -33,7 +33,7 @@ $(document).on('click', '.note-content-view', function (e) {
     $(this).siblings('.info-page').removeClass('bottom-box-info').addClass('right-box-info');
     $(this).attr('isExtend', 'false');
   }
-  $('[data-toggle="tooltip"]').tooltip()
+  
 })
 
 
@@ -81,36 +81,40 @@ function checkEditingNote(el) {
 $(document).on("click", "#btn-add-member", function(e) {
   openAddMember(e)
 })
+
+
+
 function openAddMember(e) { 
   iziToast.info({
-    timeout: 20000,
+    backgroundColor : '#9cd883',
+    class : 'iziToast-add-mem',
+    timeout: false,
+    titleColor : '#666666',
+    progressBar : false,
     displayMode: 'once',
-    id: 'inputs',
-    zindex: 999999,
+    icon : 'ion ion-md-add-circle',
     maxWidth:'410',
     title: 'Add Member',
     drag: false,
     target: '.area-tool-bar',
     targetFirst: false,
     inputs: [
-        ['<input type="text" id="emailMemberAdd">', 'keyup', function (instance, toast, input, e) {
-           
-        }, true],
+        ['<input type="text" id="emailMemberAdd" placeHolder="member@mail.com"> '],
     ], buttons: [
       ['<button><b>Invite</b></button>', function (instance, toast) {
           let email = $('#emailMemberAdd').val();
-          checkMemberExist(email);
+          const spaceId = $('#spaceId').val();
+          checkMemberExist(email,spaceId);
           instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
       }, true],
     
   ],
 });
 }
- function checkMemberExist(email) {
-  axios.post(API_ADD_MEMBER, {email: email}, {withCredentials: true})
+ function checkMemberExist(email, spaceId) {
+  axios.post(API_INVITE_MEMBER, {email: email, idSpace :spaceId}, {withCredentials: true})
      .then(function (response) {
-       console.log(response);
-      showToast(2,"Update Content Success!");
+      showToast(1,response.data);
      })
     .catch(function (error) {
       showToast(1,"Add Member Error");

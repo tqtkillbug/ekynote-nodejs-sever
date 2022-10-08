@@ -183,6 +183,10 @@ textarea{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.iziToast-capsule{
-    margin-left: 70px;
+.iziToast-add-mem{
+    margin-left: 50px;
 }
+#emailMemberAdd{
+    color: #ffffff;
+}
+

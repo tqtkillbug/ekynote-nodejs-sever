@@ -1,3 +1,4 @@
+
 initScript();
 
 
@@ -19,6 +20,7 @@ const API_DELETE_KEYWORD = DOMAIN + "/api/keyword"
 const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
 // API Team Space
 const API_NEW_SPACE = DOMAIN + "/api/space"
+const API_INVITE_MEMBER = DOMAIN + "/api/space/invite_mem"
 const API_ADD_MEMBER = DOMAIN + "/api/space/add_mem"
 
 
@@ -26,6 +28,7 @@ const API_ADD_MEMBER = DOMAIN + "/api/space/add_mem"
 
 function initScript() {
   fillMenuSpace();
+  $('[data-toggle="tooltip"]').tooltip()
 }
 
 
@@ -60,7 +63,7 @@ class User {
   }
 
   iziToast.settings({
-    timeout: 3000, // default timeout
+    timeout: 3500, // default timeout
     resetOnHover: true,
     title: "Eta: ",
     // icon: '', // icon class
@@ -208,6 +211,12 @@ $(document).on("click", ".btn-cancel-new-space", function(){
 })
 
 
+$(document).on('click', '.noti-item', function (e) {
+  e.preventDefault()
+  e.stopPropagation();
+})
+
+
 function newTeamSpace(nameSpace,callBack) {
   showLoading();
   axios.post(API_NEW_SPACE, {name: nameSpace}, {withCredentials: true})
@@ -259,4 +268,36 @@ function fillMenuSpace() {
     $('a[href="'+ pathName+'"]').find('input').css('color', '#7ED957');
   }
   
+}
+
+//notification event 
+
+$(document).on('click', '.btn-disagree-space', function (e) {
+  var idNotify =  $(this).closest('.noti-item').attr('id-notify');
+  var idSpace =  $(this).closest('div').attr('id-space-invite');
+  agreeToSpace(idNotify,idSpace, 2,()=>{
+    $(this).closest('.noti-item').fadeOut();
+  })
+})
+
+$(document).on('click', '.btn-agree-space', function (e) {
+  var idNotify =  $(this).closest('.noti-item').attr('id-notify');
+  var idSpace =  $(this).closest('div').attr('id-space-invite');
+   agreeToSpace(idNotify,idSpace, 1, (response)=>{
+    $(this).closest('.noti-item').fadeOut();
+    showToast(1,response.data);
+   })
+})
+
+
+function agreeToSpace(idNoti,idSpace,type,callBack) {
+  axios.post(API_ADD_MEMBER, {idNotify: idNoti, idSpace :idSpace, type:type}, {withCredentials: true})
+     .then(function (response) {
+      callBack(response)
+     })
+    .catch(function (error) {
+      showToast(3,"Execution error");
+    })
+    .then(() => {
+    });
 }

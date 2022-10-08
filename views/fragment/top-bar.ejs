@@ -19,7 +19,12 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="mdi mdi-bell-outline noti-icon"></i>
-                <span class="badge badge-pink rounded-circle noti-icon-badge">4</span>
+                <% if (info.notification.notifyCount > 0) { %>
+                    <span class="badge badge-pink rounded-circle noti-icon-badge">
+                        <%= info.notification.notifyCount %>
+                    </span>
+                    <% }
+                %>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
@@ -35,19 +40,39 @@
                 </div>
 
                 <div class="slimscroll noti-scroll">
-        
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon">
-                            <i class="mdi mdi-comment-account-outline text-info"></i>
+                    <% info.notification.lstNoti.forEach(function(notify) { %>
+                        <div class="dropdown-item notify-item noti-item" id-notify='<%= notify.idNoti %>'>
+                            <div class="notify-icon">
+                                <% if (notify.type==3) { %>
+                                    <i class="mdi mdi-account-group text-info"></i>
+                                    <% }
+                                %>
+                                <% if (notify.type==2) { %>
+                                    <i class="mdi mdi-weather-sunny text-info"></i>
+                                    <% }
+                                %>
+                                <% if (notify.type==1) { %>
+                                    <i class="ion ion-md-alert text-warning"></i>
+                                    <% }
+                                %>
+                            </div>
+                            <p class="notify-details" data-toggle="tooltip" title = '<%= notify.content %>'><%= notify.content %>
+                                <small class="noti-time"><%= notify.relativeTime %></small>
+                            </p>
+                            <% if (notify.type==3) { %>
+                                <div class="text-right" id-space-invite="<%= notify.spaceInviteId %>">
+                                    <button class="btn btn-warning waves-effect waves-light btn-sm btn-disagree-space">Disagree</button>
+                                    <button class="btn btn-primary waves-effect waves-light btn-sm btn-agree-space">Agree</button>
+                                  </div>
+                                <% }
+                            %>
                         </div>
-                        <p class="notify-details">Caleb Flakelar commented on Admin
-                            <small class="noti-time">1 min ago</small>
-                        </p>
-                    </a>
+                    <% }); %>
+                
+                    
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon text-success">
                             <i class="mdi mdi-account-plus text-primary"></i>
                         </div>
@@ -56,7 +81,6 @@
                         </p>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon text-danger">
                             <i class="mdi mdi-heart text-danger"></i>
@@ -66,7 +90,6 @@
                         </p>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon text-warning">
                             <i class="mdi mdi-comment-account-outline text-primary"></i>
@@ -76,7 +99,6 @@
                         </p>
                     </a>
 
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon text-purple">
                             <i class="mdi mdi-account-plus text-danger"></i>
@@ -86,7 +108,6 @@
                         </p>
                     </a>
 
-                     <!-- item-->
                      <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon text-danger">
                             <i class="mdi mdi-heart text-danger"></i>
@@ -94,7 +115,7 @@
                         <p class="notify-details">Carlos Crouch liked <b>Admin</b>.
                             <small class="noti-time">Carlos Crouch liked</small>
                         </p>
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </li>

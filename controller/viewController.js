@@ -4,7 +4,7 @@ const { get } = require("mongoose");
 const {User, Keyword} = require("../model/model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const teamSpaceService = require("../service/app-service/teamSpace.service");
 
 const viewController = {
     showLogin: (req,res) =>{
@@ -24,9 +24,13 @@ const viewController = {
     images_all :(req,res) =>{
         res.render("list-images", { info:req.infoUser});
     },
-    teamSpace :(req,res) =>{
-        // console.log( req.params.id); 
-        res.render("team-space", { info:req.infoUser}) 
+    teamSpace : async (req,res) =>{
+        const spaceInfo = await teamSpaceService.getInfoTeamSpace(req.params.id,req.infoUser);
+        if (!spaceInfo == false) {
+            res.render("team-space", { info:req.infoUser, spaceInfo : spaceInfo})
+            return; 
+        }
+        res.redirect('/404') 
     }
 
   

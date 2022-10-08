@@ -5,8 +5,6 @@ const {
     TeamSpace,
     Notification
 } = require("../../model/model");
-var moment = require('moment'); // require
-moment().format(); 
 var ObjectId = require('mongoose').Types.ObjectId; 
 const commonService = require('../common/common.service');
 const notiService  = {
