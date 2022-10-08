@@ -1,11 +1,11 @@
-const fileUploader = require('../configs/cloudinary.config');
-const {User, Keyword} = require("../model/model");
+const fileUploader = require('../../configs/cloudinary.config');
+const {User, Keyword} = require("../../model/model");
 const bodyParser = require("body-parser");
 const { json } = require("body-parser");
 const cloudinary = require('cloudinary');
-const containCommon = require('../configs/contain');
+const containCommon = require('../../configs/contain');
 const { response } = require('express');
-const ContainCommon = require('../configs/contain');
+const ContainCommon = require('../../configs/contain');
 
 cloudinary.config({ 
     cloud_name: 'tqt-group', 
@@ -38,7 +38,6 @@ const cloudinaryService = {
                return res.status(500).json("Image not found");
             }else {
                const imageUrl = req.body.content;
-               console.log(imageUrl);
                const is =  await cloudinary.v2.uploader
                .upload (imageUrl, {folder: ContainCommon.FOLDER_CLOUDINARY_FOR_IMAGE_USER_UPLOAD, tags: 'eta-image-staging'})
                .then ( async (response)=> {

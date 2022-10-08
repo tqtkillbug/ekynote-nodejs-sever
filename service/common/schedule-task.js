@@ -1,7 +1,7 @@
 const cron = require('node-cron');
-const {User, Keyword} = require("../model/model");
+const {User, Keyword} = require("../../model/model");
 const cloudinary = require('cloudinary').v2;
-const containCommon = require('../configs/contain');
+const containCommon = require('../../configs/contain');
  
 exports.initScheduledJobs = () => {
 
