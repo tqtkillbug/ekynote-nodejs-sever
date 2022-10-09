@@ -36,13 +36,18 @@
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
-                                 <!-- <div id="list-team-space">
-                                 </div> -->
-                                    <% info.listSpace.forEach(function(space) { %>
+                                    <% info.listSpace.lstSpaceOwner.forEach(function(space) { %>
                                         <li><a href="/space/<%= space._id %>" class="pl-0">
                                             <input type="text" value="<%= space.name %>" disabled class="ip-team-space">
                                         </a></li>
                                     <% }); %>
+
+                                    <% info.listSpace.lstSpaceMember.forEach(function(space) { %>
+                                        <li><a href="/space/<%= space._id %>" class="pl-0">
+                                            <input type="text" value="<%= space.name %>" disabled class="ip-team-space member-space">
+                                        </a></li>
+                                    <% }); %>
+
                                 <li><a class="new-space-btn" href="javascript: void(0);"  class="pl-0">New Space</a></li>
                             </ul>
                         </li>

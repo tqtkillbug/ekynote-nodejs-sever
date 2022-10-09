@@ -18,6 +18,14 @@ const commonService = {
             return formatter.format(Math.round(delta), key);
           }
         }
+      },
+
+      getIdFromObjectId(objectId){
+        if (objectId) {
+            var id = objectId.replace('new ObjectId("','').replace('")', '');
+            return id;
+        } 
+        return false;
       }
 }
 

@@ -12,6 +12,8 @@ router.post("/add_mem",verifyTokenAndGetCurrUser,spaceController.addMember);
 
 router.post("/invite_mem",verifyToken,spaceController.inviteMember);
 
+router.post("/out_space",verifyTokenAndGetCurrUser,spaceController.outSpace);
+
 router.get('/list', verifyToken, spaceController.loadListNote)
 
 

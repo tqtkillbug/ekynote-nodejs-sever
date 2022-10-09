@@ -79,12 +79,10 @@ function checkEditingNote(el) {
 }     
 
 $(document).on("click", "#btn-add-member", function(e) {
-  openAddMember(e)
+  openAddMember()
 })
 
-
-
-function openAddMember(e) { 
+function openAddMember() { 
   iziToast.info({
     backgroundColor : '#9cd883',
     class : 'iziToast-add-mem',
@@ -122,4 +120,30 @@ function openAddMember(e) {
     .then(() => {
       hideLoading();
     });
+ }
+
+ $(document).on('click', '.btn-out-space', function(e) {
+    var id = $('#spaceId').val();
+    showComfirm("Are you sure you want to out this space?",()=>{
+      outSpace(id, (response) =>{
+        showToast(2,response.data);
+        setTimeout(()=>{
+          window.location = '/';
+        }, 2500);
+      });
+    })
+ });
+
+ function outSpace(idSpace, callBack) {
+    if (idSpace) {
+      axios.post(API_OUT_SPACE, { idSpace :idSpace}, {withCredentials: true})
+      .then(function (response) {
+       callBack(response)
+      })
+     .catch(function (error) {
+       showToast(3,"Out space faild, try again");
+     })
+     .then(() => {
+     });
+    }  
  }

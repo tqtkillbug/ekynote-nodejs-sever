@@ -33,28 +33,54 @@
                 <div class= "area-tool-bar">
                     <input type="hidden" id="spaceId" value="<%= spaceInfo.id%>">
                     <div class="card border-primary tool-bar-fixed mx-auto">
-                        <div class="col-4 ">
-                            <div class="row ">
-                                <div class="col-3 text-ver-center-tool-bar font-weight-bold">Members(<%= spaceInfo.memberCount %>)</div>
-                                    <div class="col-1">
-                                        <i class="ion ion-md-add-circle-outline" id="btn-add-member" style="padding-top: 16px;font-size: 24px; cursor: pointer;"></i> </i>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="row ">
+                                    <div class="col-3 text-ver-center-tool-bar font-weight-bold">
+                                        Members(<%= spaceInfo.memberCount %>)
                                     </div>
-                                <div class="col-8">
-                                    <ul class="social-links list-inline mb-2 mt-2 list-avatar-member ">
-                                        <li class="list-inline-item">
-                                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261a4c2ef97c4f" alt=""></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261rtya4c2ef97c4f" alt=""></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="LinkedIn"><img class="icon-avatar-member" src="https://robohash.org/62d449d144261rtyrea4c2ef97c4f" alt=""></a>
-                                        </li>
-                                      
-                                    </ul>
+                                    <% if (spaceInfo.isOwner== true) { %>
+                                        <div class="col-1">
+                                            <i class="ion ion-md-add-circle-outline" id="btn-add-member" style="padding-top: 16px;font-size: 24px; cursor: pointer;"></i> </i>
+                                        </div>
+                                        <% }
+                                    %>    
+                                    <div class="col-8">
+                                        <ul class="social-links list-inline mb-2 mt-2 list-avatar-member ">
+                                            <li class="list-inline-item ">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips owner-ava"  data-original-title="<%= spaceInfo.owner.name %>(♚)"><img class="icon-avatar-member" src="https://robohash.org/<%= spaceInfo.owner.id %>" alt=""></a>
+                                            </li>
+                                            <% spaceInfo.members.forEach(function(mem) { %>
+                                                <li class="list-inline-item">
+                                                    <a title="" data-placement="top" data-toggle="tooltip" class="tooltips"  data-original-title="<%= mem.name %>"><img class="icon-avatar-member" src="https://robohash.org/<%= mem.id %>" alt=""></a>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-5">
+                                
+                            </div>
+                            <div class="col-3">
+                               <div class="row">
+                                <div class="col-8 text-ver-center-tool-bar font-weight-bold">
+                                    <%= spaceInfo.nameSpace %>
+                                </div>
+                                <div class="col-4">
+                                    <% if (spaceInfo.isOwner == true) { %>
+                                        <i data-toggle="tooltip" title="Delete space" class="mdi mdi-delete-circle-outline mdi-24px vertical-icon-tool-bar hover-danger"></i>
+                                        <% }
+                                    %> 
+                                    <% if (spaceInfo.isOwner == false) { %>
+                                        <i data-toggle="tooltip" title="Out space" class="mdi mdi-door-open mdi-24px vertical-icon-tool-bar hover-warring btn-out-space"></i>
+                                        <% }
+                                    %>  
+                                </div>
+                               </div>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
               

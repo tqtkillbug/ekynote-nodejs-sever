@@ -22,6 +22,7 @@ const API_DELETE_IMAGE = DOMAIN + "/api/keyword/image"
 const API_NEW_SPACE = DOMAIN + "/api/space"
 const API_INVITE_MEMBER = DOMAIN + "/api/space/invite_mem"
 const API_ADD_MEMBER = DOMAIN + "/api/space/add_mem"
+const API_OUT_SPACE = DOMAIN + "/api/space/out_space"
 
 
 
@@ -192,6 +193,10 @@ $(document).on("click", ".btn-save-new-space", function(){
   $("ip-insert-name-space").off('blur');
   var nameNewSpace = $(".ip-insert-name-space").val();
   if (nameNewSpace ==  undefined || nameNewSpace == null || nameNewSpace == "") {
+    return;
+  }
+  if (nameNewSpace.length > 25) {
+    showToast(3,"Name space characters limit 30!");
     return;
   }
   newTeamSpace(nameNewSpace, (data)=>{

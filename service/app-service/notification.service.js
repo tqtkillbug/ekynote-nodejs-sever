@@ -22,7 +22,6 @@ const notiService  = {
                 spaceInviteId : noti.spaceInviteId,
                 relativeTime : commonService.timeAgo(noti.createdAt)
              }
-            
              lstNotiConvert.push(notiObj);
         }
         const result = {

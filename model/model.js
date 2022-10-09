@@ -95,17 +95,13 @@ const logIPSchema = new mongoose.Schema({
 }, {timestamps : true})
 
 const spaceSchema = new mongoose.Schema({
-    user:{
+    owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
     name:{
         type:String,
         require: true
-    },
-    idOwner:{
-        type:String,
-        require:true
     },
     listKeywordId :[
         {

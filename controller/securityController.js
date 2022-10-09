@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, TeamSpace } = require("../model/model");
 const notiService = require("../service/app-service/notification.service"); 
+const teamSpaceService = require("../service/app-service/teamSpace.service");
 
 const securityController  = {
      
@@ -66,7 +67,8 @@ const securityController  = {
                   const userDb = await User.findById(user.id);
                   if (userDb && userDb.isDelete == 0) {
                     const notifis = await notiService.getListNotiOfUser(user.id);
-                    const listSpace = await TeamSpace.find({user:user.id, isDelete: 0}); 
+                    // const listSpace = await TeamSpace.find({owner : userDb, isDelete: 0}); 
+                    const listSpace = await teamSpaceService.getLstSpaceOfUser(userDb); 
                     const info = {
                        fullName : userDb.name,
                        email:userDb.email,

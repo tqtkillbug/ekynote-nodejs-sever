@@ -17,8 +17,7 @@ const spaceController = {
                 if (space.name == "" || space.name == undefined || space.name == null) {
                     return res.status(500).json("Space name Invalid");
                 }
-                space.user = user;
-                space.idOwner = user.id;
+                space.owner = user;
                 const spaceSaved = await space.save();
                 return res.status(200).json(spaceSaved);
             } else {
@@ -59,6 +58,20 @@ const spaceController = {
         } catch (error) {
             res.status(500).join("Execution error");
         }
+    },
+    outSpace : async(req,res)=>{
+     try {
+      const idSpace  = req.body.idSpace;
+      if (idSpace) {
+         const outSpace = await teamSpaceService.outSpace(idSpace,req.user);
+         if (outSpace) {
+           return res.status(200).json('Out space success!')
+         }
+      }
+      return res.status(500).json(error);
+     } catch (error) {
+     res.status(500).json(error);
+     }
     },
     loadListNote: async (req, res) => {
 
