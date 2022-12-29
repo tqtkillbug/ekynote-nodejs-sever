@@ -15,13 +15,14 @@ const spaceRoute = require("./routes/space");
 
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const Sequelize = require("sequelize");
 
 require('./securitys/passport')(passport)
 const uploadRoute = require("./routes/upload");
 const scheduledTask = require('./service/common/schedule-task');
 
 const server = require("http").createServer(app);
-server.listen(process.env.PORT || 8000);
+server.listen(process.env.PORT || 3000);
 // const io = require('socket.io')(server, {
 //     cors: {
 //       origin: 'http://localhost:3000',
@@ -41,6 +42,21 @@ dotenv.config();
 // Config DB
 
 
+// const sequelize = new Sequelize(
+//    'etanotestaging',
+//    'root',
+//    '01470258tqt',
+//     {
+//       host: '127.0.0.1',
+//       dialect: 'mysql'
+//     }
+//   );
+
+// sequelize.authenticate().then(() => {
+//   console.log("<---------------------------------------Connected MYSQL DB------------------------------>");
+// }).catch((error) => {
+//    console.error('Unable to connect to the database: ', error);
+// });
 
 mongoose.connect(process.env.mongodb_url,{
     useNewUrlParser:true,
