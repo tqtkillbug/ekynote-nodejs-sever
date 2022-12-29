@@ -157,6 +157,14 @@ const authController = {
         } catch (error) {
             return res.status(500).json(error);
         }
+    },
+
+    oAuthForExtension : async(req,res) => {
+        try {
+        
+        } catch (error) {
+        res.status(500).json(error);
+        }
     }
 }
 
