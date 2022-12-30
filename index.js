@@ -10,14 +10,14 @@ const userRoute = require("./routes/user");
 const keywordRoute = require("./routes/keyword");
 const authRoute = require("./routes/auth");
 const viewRoute = require("./routes/view");
-const passport = require('passport');
+// const passport = require('passport');
 const spaceRoute = require("./routes/space");
 
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const Sequelize = require("sequelize");
 
-require('./securitys/passport')(passport)
+// require('./securitys/passport')(passport)
 const uploadRoute = require("./routes/upload");
 const scheduledTask = require('./service/common/schedule-task');
 
@@ -79,8 +79,8 @@ app.use(
   )
 
 
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 
 app.use("/api/user", userRoute);
